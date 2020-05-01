@@ -1,0 +1,92 @@
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+div {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  border: 0px solid #000;
+}
+
+.results {
+  background-color: #ddd;
+  margin: 10px;
+  height: 20px;
+}
+
+.results .complete {
+  width: 50%;
+  height: 100%;
+  background-color: red;
+}
+
+.suit div {
+  vertical-align: middle;
+  margin: 2px;
+}
+.suit div div { text-align: right;  display: inline-block; margin: 0px; }
+.suit .label { width: 70px; line-height: 2; }
+.suit .missing { background-image: none !important; background-color: #ddd; }
+.suit .own div { display: inline-block !important; border: 1px solid #ccc; height: 30px; width: 20px; background-size: cover; }
+.suit .others { width: 60px; text-align: left; }
+
+.suit .hearts .ace { background-image: url("img/AH.png"); }
+.suit .hearts .two { background-image: url("img/2H.png"); }
+.suit .hearts .three { background-image: url("img/3H.png"); }
+.suit .hearts .four { background-image: url("img/4H.png"); }
+.suit .hearts .five { background-image: url("img/5H.png"); }
+.suit .hearts .six { background-image: url("img/6H.png"); }
+.suit .hearts .seven { background-image: url("img/7H.png"); }
+.suit .hearts .eight { background-image: url("img/8H.png"); }
+.suit .hearts .nine { background-image: url("img/9H.png"); }
+.suit .hearts .ten { background-image: url("img/10H.png"); }
+.suit .hearts .jack { background-image: url("img/JH.png"); }
+.suit .hearts .queen { background-image: url("img/QH.png"); }
+.suit .hearts .king { background-image: url("img/KH.png"); }
+
+.suit .clubs .ace { background-image: url("img/AC.png"); }
+.suit .clubs .two { background-image: url("img/2C.png"); }
+.suit .clubs .three { background-image: url("img/3C.png"); }
+.suit .clubs .four { background-image: url("img/4C.png"); }
+.suit .clubs .five { background-image: url("img/5C.png"); }
+.suit .clubs .six { background-image: url("img/6C.png"); }
+.suit .clubs .seven { background-image: url("img/7C.png"); }
+.suit .clubs .eight { background-image: url("img/8C.png"); }
+.suit .clubs .nine { background-image: url("img/9C.png"); }
+.suit .clubs .ten { background-image: url("img/10C.png"); }
+.suit .clubs .jack { background-image: url("img/JC.png"); }
+.suit .clubs .queen { background-image: url("img/QC.png"); }
+.suit .clubs .king { background-image: url("img/KC.png"); }
+
+.suit .diamonds .ace { background-image: url("img/AD.png"); }
+.suit .diamonds .two { background-image: url("img/2D.png"); }
+.suit .diamonds .three { background-image: url("img/3D.png"); }
+.suit .diamonds .four { background-image: url("img/4D.png"); }
+.suit .diamonds .five { background-image: url("img/5D.png"); }
+.suit .diamonds .six { background-image: url("img/6D.png"); }
+.suit .diamonds .seven { background-image: url("img/7D.png"); }
+.suit .diamonds .eight { background-image: url("img/8D.png"); }
+.suit .diamonds .nine { background-image: url("img/9D.png"); }
+.suit .diamonds .ten { background-image: url("img/10D.png"); }
+.suit .diamonds .jack { background-image: url("img/JD.png"); }
+.suit .diamonds .queen { background-image: url("img/QD.png"); }
+.suit .diamonds .king { background-image: url("img/KD.png"); }
+
+.suit .spades .ace { background-image: url("img/AS.png"); }
+.suit .spades .two { background-image: url("img/2S.png"); }
+.suit .spades .three { background-image: url("img/3S.png"); }
+.suit .spades .four { background-image: url("img/4S.png"); }
+.suit .spades .five { background-image: url("img/5S.png"); }
+.suit .spades .six { background-image: url("img/6S.png"); }
+.suit .spades .seven { background-image: url("img/7S.png"); }
+.suit .spades .eight { background-image: url("img/8S.png"); }
+.suit .spades .nine { background-image: url("img/9S.png"); }
+.suit .spades .ten { background-image: url("img/10S.png"); }
+.suit .spades .jack { background-image: url("img/JS.png"); }
+.suit .spades .queen { background-image: url("img/QS.png"); }
+.suit .spades .king { background-image: url("img/KS.png"); }
