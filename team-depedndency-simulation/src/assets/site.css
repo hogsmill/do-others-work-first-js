@@ -13,10 +13,24 @@ div {
   border: 0px solid #000;
 }
 
-.results {
-  background-color: #ddd;
-  margin: 10px;
-  height: 20px;
+button { margin: 2px; }
+
+.run-type {
+  width: 180px;
+  margin: auto 0 auto auto;
+  text-align: left;
+}
+.run-type .radio {
+  margin-left: 6px;
+}
+
+.run-type .start {
+  margin: 2px auto;
+}
+
+.next-sprint { display: inline-block; margin-left: 6px; }
+
+.results { margin: 10px; height: 20px;
 }
 
 .results .complete {
@@ -25,68 +39,79 @@ div {
   background-color: red;
 }
 
+.suit-label { width: 100px; }
+
+.card { height: 30px; width: 20px; background-size: cover; border: 1px solid #ccc; background-color: #ddd; margin-right: 2px; }
+
+.current { width: 25px; height: 30px; }
+.blocked { width: 40px; text-align: center; }
+
 .suit div {
   vertical-align: middle;
-  margin: 2px;
 }
-.suit div div { text-align: right;  display: inline-block; margin: 0px; }
+
+.suit > div {
+  margin: 5px;
+}
+
+.suit div div { display: inline-block; }
 .suit .label { width: 70px; line-height: 2; }
-.suit .missing { background-image: none !important; background-color: #ddd; }
-.suit .own div { display: inline-block !important; border: 1px solid #ccc; height: 30px; width: 20px; background-size: cover; }
-.suit .others { width: 60px; text-align: left; }
+.suit .missing { background-image: none !important; }
+.suit .own .card, .suit .others .card { display: inline-block !important; }
+.suit .others { width: 80px; text-align: left; }
 
-.suit .hearts .ace { background-image: url("img/AH.png"); }
-.suit .hearts .two { background-image: url("img/2H.png"); }
-.suit .hearts .three { background-image: url("img/3H.png"); }
-.suit .hearts .four { background-image: url("img/4H.png"); }
-.suit .hearts .five { background-image: url("img/5H.png"); }
-.suit .hearts .six { background-image: url("img/6H.png"); }
-.suit .hearts .seven { background-image: url("img/7H.png"); }
-.suit .hearts .eight { background-image: url("img/8H.png"); }
-.suit .hearts .nine { background-image: url("img/9H.png"); }
-.suit .hearts .ten { background-image: url("img/10H.png"); }
-.suit .hearts .jack { background-image: url("img/JH.png"); }
-.suit .hearts .queen { background-image: url("img/QH.png"); }
-.suit .hearts .king { background-image: url("img/KH.png"); }
+.card.hearts.ace { background-image: url("img/AH.png"); }
+.card.hearts.two { background-image: url("img/2H.png"); }
+.card.hearts.three { background-image: url("img/3H.png"); }
+.card.hearts.four { background-image: url("img/4H.png"); }
+.card.hearts.five { background-image: url("img/5H.png"); }
+.card.hearts.six { background-image: url("img/6H.png"); }
+.card.hearts.seven { background-image: url("img/7H.png"); }
+.card.hearts.eight { background-image: url("img/8H.png"); }
+.card.hearts.nine { background-image: url("img/9H.png"); }
+.card.hearts.ten { background-image: url("img/10H.png"); }
+.card.hearts.jack { background-image: url("img/JH.png"); }
+.card.hearts.queen { background-image: url("img/QH.png"); }
+.card.hearts.king { background-image: url("img/KH.png"); }
 
-.suit .clubs .ace { background-image: url("img/AC.png"); }
-.suit .clubs .two { background-image: url("img/2C.png"); }
-.suit .clubs .three { background-image: url("img/3C.png"); }
-.suit .clubs .four { background-image: url("img/4C.png"); }
-.suit .clubs .five { background-image: url("img/5C.png"); }
-.suit .clubs .six { background-image: url("img/6C.png"); }
-.suit .clubs .seven { background-image: url("img/7C.png"); }
-.suit .clubs .eight { background-image: url("img/8C.png"); }
-.suit .clubs .nine { background-image: url("img/9C.png"); }
-.suit .clubs .ten { background-image: url("img/10C.png"); }
-.suit .clubs .jack { background-image: url("img/JC.png"); }
-.suit .clubs .queen { background-image: url("img/QC.png"); }
-.suit .clubs .king { background-image: url("img/KC.png"); }
+.card.clubs.ace { background-image: url("img/AC.png"); }
+.card.clubs.two { background-image: url("img/2C.png"); }
+.card.clubs.three { background-image: url("img/3C.png"); }
+.card.clubs.four { background-image: url("img/4C.png"); }
+.card.clubs.five { background-image: url("img/5C.png"); }
+.card.clubs.six { background-image: url("img/6C.png"); }
+.card.clubs.seven { background-image: url("img/7C.png"); }
+.card.clubs.eight { background-image: url("img/8C.png"); }
+.card.clubs.nine { background-image: url("img/9C.png"); }
+.card.clubs.ten { background-image: url("img/10C.png"); }
+.card.clubs.jack { background-image: url("img/JC.png"); }
+.card.clubs.queen { background-image: url("img/QC.png"); }
+.card.clubs.king { background-image: url("img/KC.png"); }
 
-.suit .diamonds .ace { background-image: url("img/AD.png"); }
-.suit .diamonds .two { background-image: url("img/2D.png"); }
-.suit .diamonds .three { background-image: url("img/3D.png"); }
-.suit .diamonds .four { background-image: url("img/4D.png"); }
-.suit .diamonds .five { background-image: url("img/5D.png"); }
-.suit .diamonds .six { background-image: url("img/6D.png"); }
-.suit .diamonds .seven { background-image: url("img/7D.png"); }
-.suit .diamonds .eight { background-image: url("img/8D.png"); }
-.suit .diamonds .nine { background-image: url("img/9D.png"); }
-.suit .diamonds .ten { background-image: url("img/10D.png"); }
-.suit .diamonds .jack { background-image: url("img/JD.png"); }
-.suit .diamonds .queen { background-image: url("img/QD.png"); }
-.suit .diamonds .king { background-image: url("img/KD.png"); }
+.card.diamonds.ace { background-image: url("img/AD.png"); }
+.card.diamonds.two { background-image: url("img/2D.png"); }
+.card.diamonds.three { background-image: url("img/3D.png"); }
+.card.diamonds.four { background-image: url("img/4D.png"); }
+.card.diamonds.five { background-image: url("img/5D.png"); }
+.card.diamonds.six { background-image: url("img/6D.png"); }
+.card.diamonds.seven { background-image: url("img/7D.png"); }
+.card.diamonds.eight { background-image: url("img/8D.png"); }
+.card.diamonds.nine { background-image: url("img/9D.png"); }
+.card.diamonds.ten { background-image: url("img/10D.png"); }
+.card.diamonds.jack { background-image: url("img/JD.png"); }
+.card.diamonds.queen { background-image: url("img/QD.png"); }
+.card.diamonds.king { background-image: url("img/KD.png"); }
 
-.suit .spades .ace { background-image: url("img/AS.png"); }
-.suit .spades .two { background-image: url("img/2S.png"); }
-.suit .spades .three { background-image: url("img/3S.png"); }
-.suit .spades .four { background-image: url("img/4S.png"); }
-.suit .spades .five { background-image: url("img/5S.png"); }
-.suit .spades .six { background-image: url("img/6S.png"); }
-.suit .spades .seven { background-image: url("img/7S.png"); }
-.suit .spades .eight { background-image: url("img/8S.png"); }
-.suit .spades .nine { background-image: url("img/9S.png"); }
-.suit .spades .ten { background-image: url("img/10S.png"); }
-.suit .spades .jack { background-image: url("img/JS.png"); }
-.suit .spades .queen { background-image: url("img/QS.png"); }
-.suit .spades .king { background-image: url("img/KS.png"); }
+.card.spades.ace { background-image: url("img/AS.png"); }
+.card.spades.two { background-image: url("img/2S.png"); }
+.card.spades.three { background-image: url("img/3S.png"); }
+.card.spades.four { background-image: url("img/4S.png"); }
+.card.spades.five { background-image: url("img/5S.png"); }
+.card.spades.six { background-image: url("img/6S.png"); }
+.card.spades.seven { background-image: url("img/7S.png"); }
+.card.spades.eight { background-image: url("img/8S.png"); }
+.card.spades.nine { background-image: url("img/9S.png"); }
+.card.spades.ten { background-image: url("img/10S.png"); }
+.card.spades.jack { background-image: url("img/JS.png"); }
+.card.spades.queen { background-image: url("img/QS.png"); }
+.card.spades.king { background-image: url("img/KS.png"); }
