@@ -41,7 +41,7 @@ button { margin: 2px; }
 
 .suit-label { width: 100px; }
 
-.card { height: 30px; width: 20px; background-size: cover; border: 1px solid #ccc; background-color: #ddd; margin-right: 2px; }
+.card { height: 30px; width: 24px; background-size: cover; background-color: #ddd; margin-right: 2px; }
 
 .current { width: 25px; height: 30px; }
 .blocked { width: 40px; text-align: center; }

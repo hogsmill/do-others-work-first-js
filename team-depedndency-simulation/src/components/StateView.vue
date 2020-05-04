@@ -3,7 +3,7 @@
     <h2>State <span v-if="state['runType']">({{state['runType']}})</span><span v-if="state['strategy']">, Strategy {{strategy}}</span></h2>
     <div class="suit">
       <div v-for="(cards, suit) in state['suits']" :key="suit" :class="suit">
-        <div class="suit-label">{{suit}}</div>
+        <div class="suit-label">&{{suit}};</div>
         <div class="label current">Current:</div><div :class="[suit, getCard(state['suits'][suit]['current'])]" class="card"></div>
         <div class="label blocked">Blocked:</div>
         <div v-if="!state['suits'][suit]['blocked']" class="blocked">No</div>
