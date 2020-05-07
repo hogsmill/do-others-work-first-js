@@ -1,0 +1,120 @@
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+body {
+  margin: 0;
+}
+
+div {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  border: 0px solid #000;
+}
+
+button { margin: 2px; }
+
+.run-type {
+  width: 180px;
+  margin: auto 0 auto auto;
+  text-align: left;
+}
+.run-type .radio {
+  margin-left: 6px;
+}
+
+.run-type .start {
+  margin: 2px auto;
+}
+
+.next-sprint { display: inline-block; margin-left: 6px; }
+
+.results { margin: 10px; height: 20px;
+}
+
+.results .complete {
+  width: 50%;
+  height: 100%;
+  background-color: red;
+}
+
+.suit-label { width: 100px; }
+
+.card { height: 30px; width: 24px; background-size: cover; background-color: #ddd; margin-right: 2px; }
+
+.current { width: 25px; height: 30px; }
+.blocked { width: 40px; text-align: center; }
+
+.suit div {
+  vertical-align: middle;
+}
+
+.suit > div {
+  margin: 5px;
+}
+
+.suit div div { display: inline-block; }
+.suit .label { width: 70px; line-height: 2; }
+.suit .missing { background-image: none !important; }
+.suit .own .card, .suit .others .card { display: inline-block !important; }
+.suit .others { width: 80px; text-align: left; }
+
+.card.hearts.ace { background-image: url("img/AH.png"); }
+.card.hearts.two { background-image: url("img/2H.png"); }
+.card.hearts.three { background-image: url("img/3H.png"); }
+.card.hearts.four { background-image: url("img/4H.png"); }
+.card.hearts.five { background-image: url("img/5H.png"); }
+.card.hearts.six { background-image: url("img/6H.png"); }
+.card.hearts.seven { background-image: url("img/7H.png"); }
+.card.hearts.eight { background-image: url("img/8H.png"); }
+.card.hearts.nine { background-image: url("img/9H.png"); }
+.card.hearts.ten { background-image: url("img/10H.png"); }
+.card.hearts.jack { background-image: url("img/JH.png"); }
+.card.hearts.queen { background-image: url("img/QH.png"); }
+.card.hearts.king { background-image: url("img/KH.png"); }
+
+.card.clubs.ace { background-image: url("img/AC.png"); }
+.card.clubs.two { background-image: url("img/2C.png"); }
+.card.clubs.three { background-image: url("img/3C.png"); }
+.card.clubs.four { background-image: url("img/4C.png"); }
+.card.clubs.five { background-image: url("img/5C.png"); }
+.card.clubs.six { background-image: url("img/6C.png"); }
+.card.clubs.seven { background-image: url("img/7C.png"); }
+.card.clubs.eight { background-image: url("img/8C.png"); }
+.card.clubs.nine { background-image: url("img/9C.png"); }
+.card.clubs.ten { background-image: url("img/10C.png"); }
+.card.clubs.jack { background-image: url("img/JC.png"); }
+.card.clubs.queen { background-image: url("img/QC.png"); }
+.card.clubs.king { background-image: url("img/KC.png"); }
+
+.card.diamonds.ace { background-image: url("img/AD.png"); }
+.card.diamonds.two { background-image: url("img/2D.png"); }
+.card.diamonds.three { background-image: url("img/3D.png"); }
+.card.diamonds.four { background-image: url("img/4D.png"); }
+.card.diamonds.five { background-image: url("img/5D.png"); }
+.card.diamonds.six { background-image: url("img/6D.png"); }
+.card.diamonds.seven { background-image: url("img/7D.png"); }
+.card.diamonds.eight { background-image: url("img/8D.png"); }
+.card.diamonds.nine { background-image: url("img/9D.png"); }
+.card.diamonds.ten { background-image: url("img/10D.png"); }
+.card.diamonds.jack { background-image: url("img/JD.png"); }
+.card.diamonds.queen { background-image: url("img/QD.png"); }
+.card.diamonds.king { background-image: url("img/KD.png"); }
+
+.card.spades.ace { background-image: url("img/AS.png"); }
+.card.spades.two { background-image: url("img/2S.png"); }
+.card.spades.three { background-image: url("img/3S.png"); }
+.card.spades.four { background-image: url("img/4S.png"); }
+.card.spades.five { background-image: url("img/5S.png"); }
+.card.spades.six { background-image: url("img/6S.png"); }
+.card.spades.seven { background-image: url("img/7S.png"); }
+.card.spades.eight { background-image: url("img/8S.png"); }
+.card.spades.nine { background-image: url("img/9S.png"); }
+.card.spades.ten { background-image: url("img/10S.png"); }
+.card.spades.jack { background-image: url("img/JS.png"); }
+.card.spades.queen { background-image: url("img/QS.png"); }
+.card.spades.king { background-image: url("img/KS.png"); }
