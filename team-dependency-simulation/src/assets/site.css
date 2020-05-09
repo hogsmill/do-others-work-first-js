@@ -42,8 +42,6 @@ button { margin: 2px; }
   background-color: red;
 }
 
-.suit-label { width: 100px; }
-
 .card { height: 30px; width: 24px; background-size: cover; background-color: #ddd; margin-right: 2px; }
 
 .current { width: 25px; height: 30px; }
@@ -58,10 +56,11 @@ button { margin: 2px; }
 }
 
 .suit div div { display: inline-block; }
-.suit .label { width: 70px; line-height: 2; }
 .suit .missing { background-image: none !important; }
 .suit .own .card, .suit .others .card { display: inline-block !important; }
 .suit .others { width: 80px; text-align: left; }
+
+.suit .label { width: 70px; line-height: 2; }
 
 .card.hearts.ace { background-image: url("img/AH.png"); }
 .card.hearts.two { background-image: url("img/2H.png"); }

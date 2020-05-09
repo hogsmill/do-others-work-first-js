@@ -1,12 +1,9 @@
 <template>
   <div class="results">
-    <h2>Results
-    <span v-if="state['complete']">(Complete)</span>
-    <span v-if="!state['complete']">(Sprint {{state['sprint']}})</span>
-    </h2>
+    <h2>Results (No. of Sprints)</h2>
     <div v-for="(status, strategy) in state['strategies']" :key="strategy" :class="strategy">
       <div  v-if="status['run']">
-        <div class="label">{{strategy}}</div>
+        <div class="label">{{state['strategies'][strategy]['name']}}</div>
         <div class="container">
           <div v-if="status['sprints'] > 0" class="status" v-bind:style="{ width: setWidth(status), 'background-color': setColor(strategy) }">{{status['sprints']}}</div>
         </div>

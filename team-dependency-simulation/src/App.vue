@@ -9,30 +9,40 @@
     </div>
     <div v-if="!showAbout">
       <h1>Interdependent Teams Simulation</h1>
+      <div class="scope">
+        <input type="radio" id="runScope" name="runScope" value="run" v-model="explore">
+        <label for="runScope">Just run it</label>
+        <input type="radio" id="runScope" name="runScope" value="explore" v-model="explore">
+        <label for="fullRun">I want to explore</label>
+      </div>
       <div class="setup">
         <h2>Set Up</h2>
+        <div class="radio" v-if="explore == 'explore'">
+          <label for="noOfOthersCards">No. Of Others Cards</label>
+          <input type="text" id="noOfOthersCards" name="noOfOthersCards" value="No. Of Others Cards" v-model="initialState['noOfOthersCards']">
+        </div>
         <button @click="setState" :disabled="state['running']">Set State</button>
       </div>
       <div class="control">
         <h2>Control</h2>
-        <div class="run-type">
+        <div class="run-type" v-if="explore == 'explore'">
           <div>Type of Run:</div>
           <div class="radio">
-            <input type="radio" id="fullRun" name="runType" value="Full Run" v-model="state['runType']">
+            <input type="radio" id="fullRun" name="runType" value="Full Run" v-model="initialState['runType']">
             <label for="fullRun">Full Run</label>
           </div>
           <div class="radio">
-            <input type="radio" id="fullStrategy" name="runType" value="Full Strategy" v-model="state['runType']">
+            <input type="radio" id="fullStrategy" name="runType" value="Full Strategy" v-model="initialState['runType']">
             <label for="fullRun">Full Strategy</label>
           </div>
           <div class="radio">
-            <input type="radio" id="stepThrough" name="runType" value="Step Through" v-model="state['runType']">
-            <label for="stepThrough">Step-Through</label>
+            <input type="radio" id="stepThrough" name="runType" value="Step Through" v-model="initialState['runType']">
+            <label for="stepThrough">Step Through</label>
           </div>
         </div>
         <button @click="nextSprint" class="next-sprint" :disabled="!stateSet || state['complete'] || state['running']">Go</button>
       </div>
-      <div class="strategies">
+      <div class="strategies" v-if="explore == 'explore'">
         <h2>Strategies</h2>
         <div class="radio">
           <input type="checkbox" id="ownFirst" name="ownFirst" value="Own First" v-model="state['strategies']['own-first']['run']">
@@ -69,16 +79,14 @@ export default {
     return {
       showAbout: false,
       stateSet: false,
+      explore: 'run',
       initialState: {
         runType: 'Step Through',
         maxSprints: 60,
         complete: false,
         running: false,
-        strategies: {
-          'own-first': { run: true, current: false, sprints: 0, complete: false },
-          'own-first-unless-blocked': { run: true, current: false, sprints: 0, complete: false },
-          'others-first': { run: true, current: false, sprints: 0, complete: false },
-        },
+        noOfOthersCards: 3,
+        strategies: {},
         strategy: '',
         suits: {
           hearts: { current: 0, blocked: false, cards: [], others: [], 'for others': [] },
@@ -91,15 +99,15 @@ export default {
       state: {
         maxSprints: 60,
         strategies: {
-          'own-first': { run: true, current: false, sprints: 0, complete: false },
-          'own-first-unless-blocked': { run: true, current: false, sprints: 0, complete: false },
-          'others-first': { run: true, current: false, sprints: 0, complete: false },
+          'own-first': { name: 'Own First', run: true, current: false, sprints: 0, complete: false },
+          'own-first-unless-blocked': { name: 'Own First Unless Blocked', run: true, current: false, sprints: 0, complete: false },
+          'others-first': { name: 'Others First', run: true, current: false, sprints: 0, complete: false },
         },
         suits: {
-          hearts: { current: 0, blocked: false, cards: [], others: [], 'for others': [] },
-          clubs: { current: 0, blocked: false, cards: [], others: [], 'for others': [] },
-          diamonds: { current: 0, blocked: false, cards: [], others: [], 'for others': [] },
-          spades: { current: 0, blocked: false, cards: [], others: [], 'for others': [] }
+          hearts: { cards: [] },
+          clubs: { cards: [] },
+          diamonds: { cards: [] },
+          spades: { cards: [] }
         },
         narration: []
       },
@@ -111,9 +119,9 @@ export default {
     },
     populateInitialState() {
       this.initialState['strategies'] = {
-        'own-first': { run: true, current: false, sprints: 0, complete: false },
-        'own-first-unless-blocked': { run: true, current: false, sprints: 0, complete: false },
-        'others-first': { run: true, current: false, sprints: 0, complete: false },
+        'own-first': { name: 'Own First', run: true, current: false, sprints: 0, complete: false },
+        'own-first-unless-blocked': { name: 'Own First Unless Blocked', run: true, current: false, sprints: 0, complete: false },
+        'others-first': { name: 'Others First', run: true, current: false, sprints: 0, complete: false },
       },
       this.initialState['suits'] = {
         hearts: { current: 0, blocked: false, cards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], others: [], 'for others': []},
@@ -122,15 +130,18 @@ export default {
         spades: { current: 0, blocked: false, cards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], others: [], 'for others': []}
       }
     },
+    findSuitToGiveCardTo() {
+
+    },
     setState() {
 
       this.populateInitialState()
 
-      // Get 3 cards to give to other teams
+      // Get N cards to give to other teams
       for (var suit in this.initialState['suits']) {
         var thisSuit = this.initialState['suits'][suit]
 
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < this.initialState['noOfOthersCards']; i++) {
           var index = this.getRandomIndex(thisSuit['cards'].length)
           var other = thisSuit['cards'][index]
           thisSuit['for others'].push(other)
@@ -150,6 +161,7 @@ export default {
         }
       }
       this.state = JSON.parse(JSON.stringify(this.initialState))
+      console.log(this.state)
       this.stateSet = true
     },
     resetState() {
@@ -293,9 +305,10 @@ export default {
   .menu span { margin: 0 4px 0 4px; }
   .menu span:hover { text-decoration: underline; }
   .selected { text-decoration: underline; font-weight: bold; }
-
+  .scope { text-align: right; padding-right: 6px; }
   .radio { display: block; text-align: left; }
-  .setup { padding: 0 6px; display: inline-block; width: 10%; vertical-align: top; }
+  .setup { padding: 0 6px; display: inline-block; width: 20%; vertical-align: top; }
+  .setup input { width: 20px; margin-left: 4px; }
   .control { padding: 0 6px; display: inline-block; width: 20%; vertical-align: top; }
   .strategies { padding: 0 6px; display: inline-block; width: 20%; vertical-align: top; }
 </style>

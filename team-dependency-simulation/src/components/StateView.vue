@@ -1,10 +1,19 @@
 <template>
   <div class="state">
     <h2>State <span v-if="state['runType']">({{state['runType']}})</span><span v-if="state['strategy']">, Strategy {{strategy}}</span></h2>
-    <div class="narration">{{narration()}}</div>
+    <div class="narration">
+      <div v-if="state['narration'].length"><strong>All Blocked: </strong></div>
+      <div v-for="item in state['narration']" :key="item['card']['suit'] + '-' + item['card']['card']">
+        <div class="suit-label-small" :class="item['suit']"></div>
+        <div> is playing </div>
+        <div>{{getCard(item['card']['card'])}} of </div>
+        <div class="suit-label-small" :class="item['card']['suit']"></div>
+        <span>. </span>
+      </div>
+    </div>
     <div class="suit">
       <div v-for="(cards, suit) in state['suits']" :key="suit" :class="suit">
-        <div class="suit-label">&{{suit}};</div>
+        <div class="suit-label" :class="suit"></div>
         <div class="label current">Current:</div><div :class="[suit, getCard(state['suits'][suit]['current'])]" class="card"></div>
         <div class="label blocked">Blocked:</div>
         <div v-if="!state['suits'][suit]['blocked']" class="blocked">No</div>
@@ -52,24 +61,23 @@ export default {
       } else {
         return '#ddd'
       }
-    },
-    narration() {
-      var str = ''
-      if (this.state['narration'].length) {
-        var cards = []
-        for (var i = 0; i < this.state['narration'].length; i++) {
-          var suit = this.state['narration'][i]['suit']
-          var card = this.state['narration'][i]['card']
-          cards.push(suit + ' is playing ' + this.suit_cards[card['card'] - 1] + ' of ' + card['suit'])
-        }
-        str = 'All Blocked: ' + cards.join(", ")
-      }
-      return str
     }
   }
 }
 </script>
 
 <style>
-  .narration { height: 12px; margin-bottom: 6px; }
+  .narration { height: 32px; margin-bottom: 6px; }
+  .narration div { display: inline; vertical-align: middle; }
+  .narration .suit-label-small { display: inline-block; height: 12px; width: 12px; }
+  .suit-label-small.hearts { background-image: url("../assets/img/hearts-small.png"); }
+  .suit-label-small.spades { background-image: url("../assets/img/spades-small.png"); }
+  .suit-label-small.diamonds { background-image: url("../assets/img/diamonds-small.png"); }
+  .suit-label-small.clubs { background-image: url("../assets/img/clubs-small.png"); }
+
+  .suit-label { background-repeat: no-repeat; height: 30px; width: 30px; }
+  .suit-label.hearts { background-image: url("../assets/img/hearts.png"); }
+  .suit-label.spades { background-image: url("../assets/img/spades.png"); }
+  .suit-label.diamonds { background-image: url("../assets/img/diamonds.png"); }
+  .suit-label.clubs { background-image: url("../assets/img/clubs.png"); }
 </style>
