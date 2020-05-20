@@ -9,17 +9,19 @@
     </div>
     <div v-if="!showAbout">
       <h1>Interdependent Teams Simulation</h1>
+      <!--
       <div class="scope">
-        <input type="radio" id="runScope" name="runScope" value="run" v-model="explore">
+        <input type="radio" id="runScope" name="runScope" v-model="explore">
         <label for="runScope">Just run it</label>
-        <input type="radio" id="runScope" name="runScope" value="explore" v-model="explore">
+        <input type="radio" id="runScope" name="runScope" v-model="explore">
         <label for="fullRun">I want to explore</label>
       </div>
+      -->
       <div class="setup">
         <h2>Set Up</h2>
         <div class="radio" v-if="explore == 'explore'">
           <label for="noOfOthersCards">No. Of Others Cards</label>
-          <input type="text" id="noOfOthersCards" name="noOfOthersCards" value="No. Of Others Cards" v-model="initialState['noOfOthersCards']">
+          <input type="text" id="noOfOthersCards" name="noOfOthersCards" v-model="initialState['noOfOthersCards']">
         </div>
         <button @click="setState" :disabled="state['running']">Set State</button>
       </div>
@@ -28,15 +30,15 @@
         <div class="run-type" v-if="explore == 'explore'">
           <div>Type of Run:</div>
           <div class="radio">
-            <input type="radio" id="fullRun" name="runType" value="Full Run" v-model="initialState['runType']">
+            <input type="radio" id="fullRun" name="runType" v-model="initialState['runType']">
             <label for="fullRun">Full Run</label>
           </div>
           <div class="radio">
-            <input type="radio" id="fullStrategy" name="runType" value="Full Strategy" v-model="initialState['runType']">
+            <input type="radio" id="fullStrategy" name="runType" v-model="initialState['runType']">
             <label for="fullRun">Full Strategy</label>
           </div>
           <div class="radio">
-            <input type="radio" id="stepThrough" name="runType" value="Step Through" v-model="initialState['runType']">
+            <input type="radio" id="stepThrough" name="runType" v-model="initialState['runType']">
             <label for="stepThrough">Step Through</label>
           </div>
         </div>
@@ -45,15 +47,15 @@
       <div class="strategies" v-if="explore == 'explore'">
         <h2>Strategies</h2>
         <div class="radio">
-          <input type="checkbox" id="ownFirst" name="ownFirst" value="Own First" v-model="state['strategies']['own-first']['run']">
+          <input type="checkbox" id="ownFirst" name="ownFirst" v-model="state['strategies']['own-first']['run']">
           <label for="ownFirst">Own Work First</label>
         </div>
         <div class="radio">
-          <input type="checkbox" id="ownFirstUnlessBlocked" name="ownFirstUnlessBlocked" value="Own First Unless Blocked" v-model="state['strategies']['own-first-unless-blocked']['run']">
+          <input type="checkbox" id="ownFirstUnlessBlocked" name="ownFirstUnlessBlocked" v-model="state['strategies']['own-first-unless-blocked']['run']">
           <label for="ownFirstUnlessBlocked">Own Work First Unless Blocked</label>
         </div>
         <div class="radio">
-          <input type="checkbox" id="otherFirst" name="otherFirst" value="Others First" v-model="state['strategies']['others-first']['run']">
+          <input type="checkbox" id="otherFirst" name="otherFirst" v-model="state['strategies']['others-first']['run']">
           <label for="otherFirst">Other's Work First</label>
         </div>
       </div>
