@@ -11,8 +11,8 @@
         :key="item['card']['suit'] + '-' + item['card']['card']"
       >
         <div class="suit-label-small" :class="item['suit']"></div>
-        <div>is playing</div>
-        <div>{{ getCard(item["card"]["card"]) }} of</div>
+        <span> is playing </span>
+        <span>{{ getCard(item["card"]["card"]) }} of </span>
         <div class="suit-label-small" :class="item['card']['suit']"></div>
         <span>. </span>
       </div>

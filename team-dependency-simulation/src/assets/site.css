@@ -35,6 +35,8 @@ button {
   padding: 14px;
 }
 
+/* other styles */
+
 .btn {
   padding: 0.25rem 0.6rem;
 }
@@ -50,8 +52,6 @@ button {
   background-color: #ffffff;
   border-color: #f4511e;
 }
-
-/* other styles */
 
 .run-type {
   width: 180px;
@@ -73,7 +73,7 @@ button {
 
 .results {
   margin: 10px;
-  height: 20px;
+  /* height: 20px; */
 }
 
 .results .complete {

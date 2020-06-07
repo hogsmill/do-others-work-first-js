@@ -6,7 +6,8 @@
     </div>
     <div v-if="!showAbout">
       <h1>Interdependent Teams Simulation</h1>
-      <!--
+      <div class="container">
+        <!--
       <div class="scope">
         <input type="radio" id="runScope" name="runScope" v-model="explore">
         <label for="runScope">Just run it</label>
@@ -14,99 +15,100 @@
         <label for="fullRun">I want to explore</label>
       </div>
       -->
-      <div class="setup">
-        <h2>Set Up</h2>
-        <div class="radio" v-if="explore == 'explore'">
-          <label for="noOfOthersCards">No. Of Others Cards</label>
-          <input
-            type="text"
-            id="noOfOthersCards"
-            name="noOfOthersCards"
-            v-model="initialState['noOfOthersCards']"
-          />
-        </div>
-        <button
-          class="btn btn-site-primary"
-          @click="setState"
-          :disabled="state['running']"
-        >
-          Set State
-        </button>
-      </div>
-      <div class="control">
-        <h2>Control</h2>
-        <div class="run-type" v-if="explore == 'explore'">
-          <div>Type of Run:</div>
-          <div class="radio">
+        <div class="setup">
+          <h2>Set Up</h2>
+          <div class="radio" v-if="explore == 'explore'">
+            <label for="noOfOthersCards">No. Of Others Cards</label>
             <input
-              type="radio"
-              id="fullRun"
-              name="runType"
-              v-model="initialState['runType']"
+              type="text"
+              id="noOfOthersCards"
+              name="noOfOthersCards"
+              v-model="initialState['noOfOthersCards']"
             />
-            <label for="fullRun">Full Run</label>
           </div>
-          <div class="radio">
-            <input
-              type="radio"
-              id="fullStrategy"
-              name="runType"
-              v-model="initialState['runType']"
-            />
-            <label for="fullRun">Full Strategy</label>
-          </div>
-          <div class="radio">
-            <input
-              type="radio"
-              id="stepThrough"
-              name="runType"
-              v-model="initialState['runType']"
-            />
-            <label for="stepThrough">Step Through</label>
-          </div>
-        </div>
-        <button
-          @click="nextSprint"
-          class="next-sprint btn btn-site-primary"
-          :disabled="!stateSet || state['complete'] || state['running']"
-        >
-          Go
-        </button>
-      </div>
-      <div class="strategies" v-if="explore == 'explore'">
-        <h2>Strategies</h2>
-        <div class="radio">
-          <input
-            type="checkbox"
-            id="ownFirst"
-            name="ownFirst"
-            v-model="state['strategies']['own-first']['run']"
-          />
-          <label for="ownFirst">Own Work First</label>
-        </div>
-        <div class="radio">
-          <input
-            type="checkbox"
-            id="ownFirstUnlessBlocked"
-            name="ownFirstUnlessBlocked"
-            v-model="state['strategies']['own-first-unless-blocked']['run']"
-          />
-          <label for="ownFirstUnlessBlocked"
-            >Own Work First Unless Blocked</label
+          <button
+            class="btn btn-site-primary"
+            @click="setState"
+            :disabled="state['running']"
           >
+            Set State
+          </button>
         </div>
-        <div class="radio">
-          <input
-            type="checkbox"
-            id="otherFirst"
-            name="otherFirst"
-            v-model="state['strategies']['others-first']['run']"
-          />
-          <label for="otherFirst">Other's Work First</label>
+        <div class="control">
+          <h2>Control</h2>
+          <div class="run-type" v-if="explore == 'explore'">
+            <div>Type of Run:</div>
+            <div class="radio">
+              <input
+                type="radio"
+                id="fullRun"
+                name="runType"
+                v-model="initialState['runType']"
+              />
+              <label for="fullRun">Full Run</label>
+            </div>
+            <div class="radio">
+              <input
+                type="radio"
+                id="fullStrategy"
+                name="runType"
+                v-model="initialState['runType']"
+              />
+              <label for="fullRun">Full Strategy</label>
+            </div>
+            <div class="radio">
+              <input
+                type="radio"
+                id="stepThrough"
+                name="runType"
+                v-model="initialState['runType']"
+              />
+              <label for="stepThrough">Step Through</label>
+            </div>
+          </div>
+          <button
+            @click="nextSprint"
+            class="next-sprint btn btn-site-primary"
+            :disabled="!stateSet || state['complete'] || state['running']"
+          >
+            Go
+          </button>
         </div>
+        <div class="strategies" v-if="explore == 'explore'">
+          <h2>Strategies</h2>
+          <div class="radio">
+            <input
+              type="checkbox"
+              id="ownFirst"
+              name="ownFirst"
+              v-model="state['strategies']['own-first']['run']"
+            />
+            <label for="ownFirst">Own Work First</label>
+          </div>
+          <div class="radio">
+            <input
+              type="checkbox"
+              id="ownFirstUnlessBlocked"
+              name="ownFirstUnlessBlocked"
+              v-model="state['strategies']['own-first-unless-blocked']['run']"
+            />
+            <label for="ownFirstUnlessBlocked"
+              >Own Work First Unless Blocked</label
+            >
+          </div>
+          <div class="radio">
+            <input
+              type="checkbox"
+              id="otherFirst"
+              name="otherFirst"
+              v-model="state['strategies']['others-first']['run']"
+            />
+            <label for="otherFirst">Other's Work First</label>
+          </div>
+        </div>
+        <StateView v-bind:state="state" />
+        <ResultsView v-bind:state="state" />
       </div>
-      <StateView v-bind:state="state" />
-      <ResultsView v-bind:state="state" />
     </div>
   </div>
 </template>

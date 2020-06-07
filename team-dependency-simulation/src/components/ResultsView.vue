@@ -1,16 +1,16 @@
 <template>
-  <div class="results">
+  <div class="results mb-5">
     <h2>Results (No. of Sprints)</h2>
     <div
       v-for="(status, strategy) in state['strategies']"
       :key="strategy"
       :class="strategy"
     >
-      <div v-if="status['run']">
-        <div class="label">
+      <div v-if="status['run']" class="row">
+        <div class="label col-md-3">
           {{ state["strategies"][strategy]["name"] }}
         </div>
-        <div class="app-container">
+        <div class="app-container col-md-9">
           <div
             v-if="status['sprints'] > 0"
             class="status"
@@ -24,10 +24,6 @@
         </div>
       </div>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
   </div>
 </template>
 
@@ -71,6 +67,7 @@ export default {
 }
 .results .label {
   display: inline-block;
+  margin-top: 3px;
   width: 17%;
 }
 .results .status {
@@ -81,5 +78,6 @@ export default {
   width: 10%;
   text-align: right;
   padding-right: 5px;
+  margin-left: -15px;
 }
 </style>
