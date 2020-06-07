@@ -15,8 +15,8 @@
         <label for="fullRun">I want to explore</label>
       </div>
       -->
-        <div class="setup">
-          <h2>Set Up</h2>
+        <div class="setup col-md-6 mb-2">
+          <h3 class="text-center">Set Up</h3>
           <div class="radio" v-if="explore == 'explore'">
             <label for="noOfOthersCards">No. Of Others Cards</label>
             <input
@@ -34,8 +34,8 @@
             Set State
           </button>
         </div>
-        <div class="control">
-          <h2>Control</h2>
+        <div class="control col-md-6 mb-2">
+          <h3 class="text-center">Control</h3>
           <div class="run-type" v-if="explore == 'explore'">
             <div>Type of Run:</div>
             <div class="radio">
