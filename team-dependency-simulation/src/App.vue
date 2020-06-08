@@ -1,6 +1,34 @@
 <template>
   <div id="app" class="mb-4">
-    <app-header></app-header>
+    <nav class="navbar navbar-expand-lg navbar-light mb-4">
+      <a class="navbar-brand" href="http://agilesimulations.co.uk">
+        <img src="/lego.png" class="ml-4" height="38px" />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item" :class="{ active: !showAbout }">
+            <a class="nav-link pointer" @click="showAbout = false"
+              >Simulation</a
+            >
+          </li>
+          <li class="nav-item" :class="{ active: showAbout }">
+            <a class="nav-link pointer" @click="showAbout = true">About</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <div v-if="showAbout">
       <AboutView />
     </div>
@@ -114,7 +142,6 @@
 </template>
 
 <script>
-import Header from "./components/Header.vue";
 import AboutView from "./components/AboutView.vue";
 import StateView from "./components/StateView.vue";
 import ResultsView from "./components/ResultsView.vue";
@@ -122,7 +149,6 @@ import ResultsView from "./components/ResultsView.vue";
 export default {
   name: "App",
   components: {
-    appHeader: Header,
     AboutView,
     StateView,
     ResultsView,
