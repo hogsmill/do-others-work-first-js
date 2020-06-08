@@ -14,7 +14,7 @@ if [ "$FORCE" != "true" -a "$GIT" == "Already up to date." ]; then
 fi
 
 npm run build
-echo "cp -R dist/* /var/www/html/$APP"
+cp -R dist/* /var/www/html/$APP
 if [ -f "src/server.js" ]; then
   SERVER=`ps -ef | grep server.js | grep $PORT | awk {'print $2'}`
   if [ "$SERVER" != "" ]; then
