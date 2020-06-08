@@ -296,8 +296,7 @@ export default {
           },
         });
     },
-    setState(data) {
-      if (!data)
+    setState() {
       this.populateInitialState();
 
       // Get N cards to give to other teams
@@ -326,14 +325,11 @@ export default {
           }
         }
       }
-      //this.state = JSON.parse(JSON.stringify(this.initialState));
       this.socket.emit("setRemoteState", JSON.stringify(this.initialState))
-      //console.log(this.state);
-      //this.stateSet = true;
     },
     setRemoteState(data) {
+      this.initialState = JSON.parse(data)
       this.state = JSON.parse(data)
-      console.log(this.state);
       this.stateSet = true;
     },
     resetState() {
@@ -437,7 +433,6 @@ export default {
       }
     },
     playNextCard(strategy) {
-      console.log(strategy);
       if (strategy == "own-first") {
         this.playNextCardOwnFirst();
       }
@@ -449,6 +444,9 @@ export default {
       }
     },
     nextSprint() {
+      this.socket.emit("nextSprint")
+    },
+    _nextSprint() {
       var strategy = this.getCurrentStrategy();
       var strategyCompleted = false;
       this.state["running"] = true;
@@ -515,11 +513,15 @@ export default {
     },
   },
   created() {
-    this.socket = io("http://77.68.122.69:3001");
+    this.socket = io("http://localhost:3001");
+  //this.socket = io("http://77.68.122.69:3001");
   },
   mounted() {
     this.socket.on("setRemoteState", (data) => {
       this.setRemoteState(data)
+    }),
+    this.socket.on("nextSprint", () => {
+      this._nextSprint()
     })
   }
 };
