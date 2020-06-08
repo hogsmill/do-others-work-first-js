@@ -4,7 +4,7 @@ const io = require("socket.io")(http);
 
 const os = require('os')
 
-var prod = os.hostname() == "agilesimulations.co.uk" ? true : false
+var prod = os.hostname() == "agilesimulations" ? true : false
 
 var connectDebugOff = prod
 var debugOn = !prod
