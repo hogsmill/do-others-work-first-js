@@ -513,8 +513,11 @@ export default {
     },
   },
   created() {
-    this.socket = io("http://localhost:3001");
-  //this.socket = io("http://77.68.122.69:3001");
+    if (location.hostname == 'localhost') {
+      this.socket = io("http://localhost:3001")
+    } else {
+      this.socket = io("http://77.68.122.69:3001")
+    }
   },
   mounted() {
     this.socket.on("setRemoteState", (data) => {
