@@ -1,5 +1,5 @@
 <template>
-  <div class="state mb-5 row text-center">
+  <div class="state mb-4 mt-3 row text-center">
     <div class="col-md-12">
       <h2>
         State <span v-if="state['runType']">({{ state["runType"] }})</span
