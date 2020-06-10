@@ -35,15 +35,7 @@
     <div v-if="!showAbout">
       <h1>Interdependent Teams Simulation</h1>
       <div class="container">
-        <!--
-      <div class="scope">
-        <input type="radio" id="runScope" name="runScope" v-model="explore">
-        <label for="runScope">Just run it</label>
-        <input type="radio" id="runScope" name="runScope" v-model="explore">
-        <label for="fullRun">I want to explore</label>
-      </div>
-      -->
-        <div class="row">
+        <div v-if="host" class="row">
           <div class="setup col-md-4 offset-md-2 mb-2 mr-2">
             <h3 class="text-center">Set Up</h3>
             <div class="radio" v-if="explore == 'explore'">
@@ -159,6 +151,7 @@ export default {
   },
   data() {
     return {
+      host: false,
       showAbout: false,
       stateSet: false,
       explore: "run",
@@ -516,6 +509,9 @@ export default {
     var host = "77.68.122.69"
     if (location.hostname == 'localhost') {
       host = 'localhost'
+    }
+    if (location.search == "?host") {
+      this.host = true
     }
     var connStr = "http://" + host + ":3001"
     console.log("Connecting to: " + connStr)
