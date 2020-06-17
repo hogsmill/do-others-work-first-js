@@ -1,4 +1,4 @@
-# team-depedndency-simulation
+# Team Dependency Simulation
 
 ## Project setup
 ```
@@ -22,3 +22,11 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Running the node.js server for socket.io
+
+```
+Navigate to do-others-work-first-js/team-dependency-simulation/src
+Then run 'node server.js'
+This is will listen on localhost:3001
+```
