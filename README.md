@@ -26,7 +26,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## Running the node.js server for socket.io
 
 ```
-Navigate to do-others-work-first-js/team-dependency-simulation/src
+Navigate to do-others-work-first-js/src
 Then run 'node server.js'
 This is will listen on localhost:3001
 ```
