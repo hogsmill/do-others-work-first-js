@@ -1,1 +1,0 @@
-Do Others Work First
