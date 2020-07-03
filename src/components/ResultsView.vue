@@ -2,24 +2,25 @@
   <div class="results mb-5">
     <h2>Results (No. of Sprints)</h2>
     <div
-      v-for="(status, strategy) in state['strategies']"
+      v-for="(status, strategy) in state.strategies"
       :key="strategy"
       :class="strategy"
     >
-      <div v-if="status['run']" class="row">
+      <div v-if="status.run" class="row">
         <div class="label col-md-3">
-          {{ state["strategies"][strategy]["name"] }}
+          {{ state.strategies[strategy].name }}
         </div>
         <div class="app-container col-md-9">
           <div
-            v-if="status['sprints'] > 0"
+            v-if="status.sprints > 0"
             class="status"
             v-bind:style="{
               width: setWidth(status),
               'background-color': setColor(strategy),
+              color: setTextColor(strategy)
             }"
           >
-            {{ status["sprints"] }}
+            {{ status.sprints }}
           </div>
         </div>
       </div>
@@ -35,14 +36,11 @@ export default {
   },
   methods: {
     setWidth(status) {
-      return (status["sprints"] / this.state["maxSprints"]) * 100 + "%";
+      return (status.sprints / this.state.maxSprints) * 100 + "%";
     },
     setColor(strategy) {
-      if (this.state["strategies"][strategy]["complete"]) {
-        if (
-          this.state["strategies"][strategy]["sprints"] <
-          this.state["maxSprints"]
-        ) {
+      if (this.state.strategies[strategy].complete) {
+        if (this.state.strategies[strategy].sprints < this.state.maxSprints) {
           return "green";
         } else {
           return "red";
@@ -51,6 +49,13 @@ export default {
         return "#ccc";
       }
     },
+    setTextColor(strategy) {
+      if (this.state.strategies[strategy].complete) {
+        return '#fff'
+      } else {
+        return '#333'
+      }
+    }
   },
 };
 </script>
@@ -72,9 +77,7 @@ export default {
 }
 .results .status {
   line-height: 1.9;
-  color: #fff;
   height: 100%;
-  background-color: green;
   width: 10%;
   text-align: right;
   padding-right: 5px;

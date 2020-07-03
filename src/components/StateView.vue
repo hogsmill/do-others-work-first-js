@@ -23,26 +23,26 @@
     </div>
     <div class="suit row">
       <div class="col-md-12">
-        <div v-for="(cards, suit) in state['suits']" :key="suit" :class="suit">
+        <div v-for="(cards, suit) in state.suits" :key="suit" :class="suit">
           <div class="suit-label" :class="suit"></div>
           <div class="label current">Current:</div>
           <div
-            :class="[suit, getCard(state['suits'][suit]['current'])]"
+            :class="[suit, getCard(state.suits[suit].current)]"
             class="card"
           ></div>
           <div class="label blocked">Blocked:</div>
-          <div v-if="!state['suits'][suit]['blocked']" class="blocked">No</div>
-          <div v-if="state['suits'][suit]['blocked']" class="blocked">Yes</div>
+          <div v-if="!state.suits[suit].blocked" class="blocked">No</div>
+          <div v-if="state.suits[suit].blocked" class="blocked">Yes</div>
           <div class="label">Own:</div>
           <div class="own">
             <div v-for="card in suit_cards" :key="card">
               <div
-                v-if="!missing(card, state['suits'][suit]['cards'])"
+                v-if="!missing(card, state.suits[suit].cards)"
                 :class="[card, suit]"
                 class="card"
               ></div>
               <div
-                v-if="missing(card, state['suits'][suit]['cards'])"
+                v-if="missing(card, state.suits[suit].cards)"
                 class="card"
                 :style="{ 'background-color': cardDone(suit, card) }"
               ></div>
@@ -52,8 +52,8 @@
           <div class="others">
             <div
               v-for="card in state['suits'][suit]['others']"
-              :key="card['suit'] + '-' + card['card']"
-              :class="[card['suit'], getCard(card['card'])]"
+              :key="card.suit + '-' + card.card"
+              :class="[card.suit, getCard(card.card)]"
               class="card"
             ></div>
           </div>
@@ -97,7 +97,7 @@ export default {
       return !cards.includes(this.getCardFromName(card));
     },
     cardDone(suit, card) {
-      if (this.getCardFromName(card) <= this.state["suits"][suit]["current"]) {
+      if (this.getCardFromName(card) <= this.state.suits[suit].current) {
         return "#7DCEA0";
       } else {
         return "#ddd";

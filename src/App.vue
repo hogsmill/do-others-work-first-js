@@ -1,42 +1,15 @@
 <template>
   <div id="app" class="mb-4">
-    <nav class="navbar navbar-expand-lg navbar-light mb-4">
-      <a class="navbar-brand" href="http://agilesimulations.co.uk">
-        <img src="/lego.png" class="ml-4" height="38px" />
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item" :class="{ active: !showAbout }">
-            <a class="nav-link pointer" @click="showAbout = false"
-              >Simulation</a
-            >
-          </li>
-          <li class="nav-item" :class="{ active: showAbout }">
-            <a class="nav-link pointer" @click="showAbout = true">About</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <appHeader></appHeader>
+    <WalkThroughView />
     <div v-if="showAbout">
       <AboutView />
     </div>
     <div v-if="!showAbout">
       <h1>Interdependent Teams Simulation</h1>
       <div class="container">
-        <div v-if="host" class="row">
-          <div class="setup col-md-4 offset-md-2 mb-2 mr-2">
+        <div class="row">
+          <div v-if="isHost" class="setup col-md-4 offset-md-2 mb-2 mr-2">
             <h3 class="text-center">Set Up</h3>
             <div class="radio" v-if="explore == 'explore'">
               <label for="noOfOthersCards">No. Of Others Cards</label>
@@ -55,7 +28,7 @@
               Set State
             </button>
           </div>
-          <div class="control col-md-4 mb-2 ml-2">
+          <div v-if="isHost || walkThrough" class="control col-md-4 mb-2 ml-2">
             <h3 class="text-center">Control</h3>
             <div class="run-type" v-if="explore == 'explore'">
               <div>Type of Run:</div>
@@ -87,7 +60,7 @@
                 <label for="stepThrough">Step Through</label>
               </div>
             </div>
-            <button
+            <button id="go-button"
               @click="nextSprint"
               class="next-sprint btn btn-site-primary"
               :disabled="!stateSet || state['complete'] || state['running']"
@@ -138,63 +111,27 @@
 <script>
 import io from "socket.io-client";
 
-import AboutView from "./components/AboutView.vue";
+import params from './lib/params.js'
+
+import Header from "./components/Header.vue";
+import AboutView from "./components/about/AboutView.vue";
+import WalkThroughView from "./components/about/WalkThroughView.vue";
 import StateView from "./components/StateView.vue";
 import ResultsView from "./components/ResultsView.vue";
 
 export default {
   name: "App",
   components: {
+    appHeader: Header,
     AboutView,
+    WalkThroughView,
     StateView,
     ResultsView,
   },
   data() {
     return {
-      host: false,
-      showAbout: false,
-      stateSet: false,
       explore: "run",
-      initialState: {
-        runType: "Step Through",
-        maxSprints: 60,
-        complete: false,
-        running: false,
-        noOfOthersCards: 3,
-        strategies: {},
-        strategy: "",
-        suits: {
-          hearts: {
-            current: 0,
-            blocked: false,
-            cards: [],
-            others: [],
-            "for others": [],
-          },
-          clubs: {
-            current: 0,
-            blocked: false,
-            cards: [],
-            others: [],
-            "for others": [],
-          },
-          diamonds: {
-            current: 0,
-            blocked: false,
-            cards: [],
-            others: [],
-            "for others": [],
-          },
-          spades: {
-            current: 0,
-            blocked: false,
-            cards: [],
-            others: [],
-            "for others": [],
-          },
-        },
-        narration: [],
-      },
+      initialState: {},
       state: {
         maxSprints: 60,
         strategies: {
@@ -231,99 +168,20 @@ export default {
     };
   },
   methods: {
+    updateShowAbout(payload) {
+      this.$store.dispatch("updateShowAbout", payload);
+    },
     getRandomIndex(n) {
       return Math.floor(Math.random() * Math.floor(n));
     },
-    populateInitialState() {
-      (this.initialState["strategies"] = {
-        "own-first": {
-          name: "Own First",
-          run: true,
-          current: false,
-          sprints: 0,
-          complete: false,
-        },
-        "own-first-unless-blocked": {
-          name: "Own First Unless Blocked",
-          run: true,
-          current: false,
-          sprints: 0,
-          complete: false,
-        },
-        "others-first": {
-          name: "Others First",
-          run: true,
-          current: false,
-          sprints: 0,
-          complete: false,
-        },
-      }),
-        (this.initialState["suits"] = {
-          hearts: {
-            current: 0,
-            blocked: false,
-            cards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-            others: [],
-            "for others": [],
-          },
-          clubs: {
-            current: 0,
-            blocked: false,
-            cards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-            others: [],
-            "for others": [],
-          },
-          diamonds: {
-            current: 0,
-            blocked: false,
-            cards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-            others: [],
-            "for others": [],
-          },
-          spades: {
-            current: 0,
-            blocked: false,
-            cards: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-            others: [],
-            "for others": [],
-          },
-        });
-    },
     setState() {
-      this.populateInitialState();
-
-      // Get N cards to give to other teams
-      for (var suit in this.initialState["suits"]) {
-        var thisSuit = this.initialState["suits"][suit];
-
-        for (var i = 0; i < this.initialState["noOfOthersCards"]; i++) {
-          var index = this.getRandomIndex(thisSuit["cards"].length);
-          var other = thisSuit["cards"][index];
-          thisSuit["for others"].push(other);
-          thisSuit["cards"].splice(index, 1);
-        }
-        this.initialState["suits"][suit]["cards"] = thisSuit["cards"];
-      }
-
-      // Give the cards to other teams
-      for (suit in this.initialState["suits"]) {
-        i = 0;
-        for (var otherSuit in this.initialState["suits"]) {
-          if (suit != otherSuit) {
-            this.initialState["suits"][otherSuit]["others"].push({
-              suit: suit,
-              card: this.initialState["suits"][suit]["for others"][i],
-            });
-            i++;
-          }
-        }
-      }
+      this.initialState = this.getInitialState
       this.socket.emit("setRemoteState", JSON.stringify(this.initialState))
     },
     setRemoteState(data) {
       this.initialState = JSON.parse(data)
       this.state = JSON.parse(data)
-      this.stateSet = true;
+      this.$store.dispatch("updateStateSet", true)
     },
     resetState() {
       this.state["suits"] = JSON.parse(
@@ -510,12 +368,33 @@ export default {
     if (location.hostname == 'localhost') {
       host = 'localhost'
     }
-    if (location.search == "?host") {
-      this.host = true
-    }
     var connStr = "http://" + host + ":3001"
     console.log("Connecting to: " + connStr)
     this.socket = io(connStr)
+
+    if (params.isParam("host")) {
+      this.$store.dispatch("updateHost", true)
+    }
+    if (params.isParam("walkThrough")) {
+      this.setState()
+    }
+  },
+  computed: {
+    isHost() {
+      return this.$store.getters.getHost;
+    },
+    showAbout() {
+      return this.$store.getters.getShowAbout;
+    },
+    walkThrough() {
+      return this.$store.getters.getWalkThrough;
+    },
+    stateSet() {
+      return this.$store.getters.getStateSet;
+    },
+    getInitialState() {
+      return this.$store.getters.getInitialState;
+    }
   },
   mounted() {
     this.socket.on("setRemoteState", (data) => {
@@ -523,6 +402,9 @@ export default {
     }),
     this.socket.on("nextSprint", () => {
       this._nextSprint()
+    }),
+    this.socket.on("setInitialState", () => {
+      this.setState()
     })
   }
 };
