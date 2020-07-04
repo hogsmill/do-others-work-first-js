@@ -9,7 +9,7 @@
       <h1>Interdependent Teams Simulation</h1>
       <div class="container">
         <div class="row">
-          <div v-if="isHost" class="setup col-md-4 offset-md-2 mb-2 mr-2">
+          <div class="setup col-md-4 offset-md-2 mb-2 mr-2">
             <h3 class="text-center">Set Up</h3>
             <div class="radio" v-if="explore == 'explore'">
               <label for="noOfOthersCards">No. Of Others Cards</label>
@@ -17,7 +17,7 @@
                 type="text"
                 id="noOfOthersCards"
                 name="noOfOthersCards"
-                v-model="initialState['noOfOthersCards']"
+                v-model="initialState.noOfOthersCards"
               />
             </div>
             <button
@@ -28,7 +28,7 @@
               Set State
             </button>
           </div>
-          <div v-if="isHost || walkThrough" class="control col-md-4 mb-2 ml-2">
+          <div class="control col-md-4 mb-2 ml-2">
             <h3 class="text-center">Control</h3>
             <div class="run-type" v-if="explore == 'explore'">
               <div>Type of Run:</div>
@@ -37,7 +37,7 @@
                   type="radio"
                   id="fullRun"
                   name="runType"
-                  v-model="initialState['runType']"
+                  v-model="initialState.runType"
                 />
                 <label for="fullRun">Full Run</label>
               </div>
@@ -46,7 +46,7 @@
                   type="radio"
                   id="fullStrategy"
                   name="runType"
-                  v-model="initialState['runType']"
+                  v-model="initialState.runType"
                 />
                 <label for="fullRun">Full Strategy</label>
               </div>
@@ -55,7 +55,7 @@
                   type="radio"
                   id="stepThrough"
                   name="runType"
-                  v-model="initialState['runType']"
+                  v-model="initialState.runType"
                 />
                 <label for="stepThrough">Step Through</label>
               </div>
@@ -63,7 +63,7 @@
             <button id="go-button"
               @click="nextSprint"
               class="next-sprint btn btn-site-primary"
-              :disabled="!stateSet || state['complete'] || state['running']"
+              :disabled="!stateSet || state.complete || state.running"
             >
               Go
             </button>
@@ -75,7 +75,7 @@
                 type="checkbox"
                 id="ownFirst"
                 name="ownFirst"
-                v-model="state['strategies']['own-first']['run']"
+                v-model="state.strategies['own-first'].run"
               />
               <label for="ownFirst">Own Work First</label>
             </div>
@@ -84,7 +84,7 @@
                 type="checkbox"
                 id="ownFirstUnlessBlocked"
                 name="ownFirstUnlessBlocked"
-                v-model="state['strategies']['own-first-unless-blocked']['run']"
+                v-model="state.strategies['own-first-unless-blocked'].run"
               />
               <label for="ownFirstUnlessBlocked"
                 >Own Work First Unless Blocked</label
@@ -95,7 +95,7 @@
                 type="checkbox"
                 id="otherFirst"
                 name="otherFirst"
-                v-model="state['strategies']['others-first']['run']"
+                v-model="state.strategies['others-first'].run"
               />
               <label for="otherFirst">Other's Work First</label>
             </div>
@@ -132,47 +132,12 @@ export default {
     return {
       explore: "run",
       initialState: {},
-      state: {
-        maxSprints: 60,
-        strategies: {
-          "own-first": {
-            name: "Own First",
-            run: true,
-            current: false,
-            sprints: 0,
-            complete: false,
-          },
-          "own-first-unless-blocked": {
-            name: "Own First Unless Blocked",
-            run: true,
-            current: false,
-            sprints: 0,
-            complete: false,
-          },
-          "others-first": {
-            name: "Others First",
-            run: true,
-            current: false,
-            sprints: 0,
-            complete: false,
-          },
-        },
-        suits: {
-          hearts: { cards: [] },
-          clubs: { cards: [] },
-          diamonds: { cards: [] },
-          spades: { cards: [] },
-        },
-        narration: [],
-      },
+      state: {}
     };
   },
   methods: {
     updateShowAbout(payload) {
       this.$store.dispatch("updateShowAbout", payload);
-    },
-    getRandomIndex(n) {
-      return Math.floor(Math.random() * Math.floor(n));
     },
     setState() {
       this.initialState = this.getInitialState
@@ -309,7 +274,7 @@ export default {
         if (
           this.strategyComplete() ||
           this.state["strategies"][strategy]["sprints"] >=
-            this.state["maxSprints"]
+            this.maxSprints
         ) {
           this.state["strategies"][strategy]["complete"] = true;
           strategyCompleted = true;
@@ -356,7 +321,7 @@ export default {
             !this.state["strategies"][strategy]["complete"]
           ) {
             currentStrategy = strategy;
-            this.state["strategies"][strategy]["current"] = true;
+            this.state.strategies[strategy].current = true;
           }
         }
       }
@@ -394,6 +359,9 @@ export default {
     },
     getInitialState() {
       return this.$store.getters.getInitialState;
+    },
+    maxSprints() {
+      return this.$store.getters.getMaxSprints;
     }
   },
   mounted() {

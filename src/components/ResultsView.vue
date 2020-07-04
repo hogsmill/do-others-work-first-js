@@ -36,11 +36,11 @@ export default {
   },
   methods: {
     setWidth(status) {
-      return (status.sprints / this.state.maxSprints) * 100 + "%";
+      return (status.sprints / this.maxSprints) * 100 + "%";
     },
     setColor(strategy) {
       if (this.state.strategies[strategy].complete) {
-        if (this.state.strategies[strategy].sprints < this.state.maxSprints) {
+        if (this.state.strategies[strategy].sprints < this.maxSprints) {
           return "green";
         } else {
           return "red";
@@ -57,6 +57,11 @@ export default {
       }
     }
   },
+  computed: {
+    maxSprints() {
+      return this.$store.getters.getMaxSprints;
+    }
+  }
 };
 </script>
 

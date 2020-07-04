@@ -6,7 +6,7 @@
         ><span v-if="state['strategy']">, Strategy {{ strategy }}</span>
       </h2>
       <div class="narration">
-        <div v-if="state['narration'].length">
+        <div v-if="state['narration'] && state['narration'].length">
           <strong>All Blocked: </strong>
         </div>
         <div
@@ -103,7 +103,7 @@ export default {
         return "#ddd";
       }
     },
-  },
+  }
 };
 </script>
 

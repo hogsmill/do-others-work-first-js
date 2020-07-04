@@ -74,8 +74,8 @@ export const store = new Vuex.Store({
     host: false,
     stateSet: false,
     initialState: {
-      runType: "Step Through",
       maxSprints: 60,
+      runType: "Step Through",
       complete: false,
       running: false,
       suits: {},
@@ -83,7 +83,8 @@ export const store = new Vuex.Store({
       strategies: {},
       strategy: "",
       narration: [],
-    }
+    },
+    state: {}
   },
   getters: {
     getWalkThrough: (state) => {
@@ -101,6 +102,12 @@ export const store = new Vuex.Store({
     getInitialState: (state) => {
       return _getInitialState(state.initialState)
     },
+    getState: (state) => {
+      return state.state;
+    },
+    getMaxSprints: (state) => {
+      return state.state.maxSprints;
+    }
   },
   mutations: {
     updateWalkThrough: (state, payload) => {
@@ -114,6 +121,12 @@ export const store = new Vuex.Store({
     },
     updateStateSet: (state, payload) => {
       state.stateSet = payload;
+    },
+    updateState: (state, payload) => {
+      state.state = payload;
+    },
+    updateMaxSprints: (state, payload) => {
+      state.state.maxSprints = payload;
     }
   },
   actions: {
@@ -128,6 +141,12 @@ export const store = new Vuex.Store({
     },
     updateStateSet: ({ commit }, payload) => {
       commit("updateStateSet", payload);
+    },
+    updateState: ({ commit }, payload) => {
+      commit("updateState", payload);
+    },
+    updateMaxSprints: ({ commit }, payload) => {
+      commit("updateMaxSprints", payload);
     }
   }
 });
