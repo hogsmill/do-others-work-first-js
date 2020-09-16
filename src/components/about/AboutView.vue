@@ -7,9 +7,7 @@
     </p>
     <p>
       See this video
-      <a href="https://vimeo.com/293167264/13f201d4f0" target="blank"
-        >Efficiencies In Interdependent Teams (<em>Agile Cambridge 2017</em>)</a
-      >
+      <a href="https://vimeo.com/293167264/13f201d4f0" target="blank">Efficiencies In Interdependent Teams (<em>Agile Cambridge 2017</em>)</a>
       - for an explanation.
     </p>
   </div>

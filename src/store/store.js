@@ -1,39 +1,39 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 function getRandomIndex(n) {
-  return Math.floor(Math.random() * Math.floor(n));
+  return Math.floor(Math.random() * Math.floor(n))
 }
 
 function _setInitialStateCards(state) {
 
-  var suit, i
+  let suit, i
 
   // Get N cards to give to other teams
   for (suit in state.suits) {
-    var thisSuit = state.suits[suit];
+    const thisSuit = state.suits[suit]
 
     for (i = 0; i < state.noOfOthersCards; i++) {
-      var index = getRandomIndex(thisSuit.cards.length);
-      var other = thisSuit.cards[index];
-      thisSuit["for others"].push(other);
-      thisSuit.cards.splice(index, 1);
+      const index = getRandomIndex(thisSuit.cards.length)
+      const other = thisSuit.cards[index]
+      thisSuit['for others'].push(other)
+      thisSuit.cards.splice(index, 1)
     }
     state.suits[suit].cards = thisSuit.cards
   }
 
   // Give the cards to other teams
   for (suit in state.suits) {
-    i = 0;
-    for (var otherSuit in state.suits) {
+    i = 0
+    for (const otherSuit in state.suits) {
       if (suit != otherSuit) {
         state.suits[otherSuit].others.push({
           suit: suit,
-          card: state.suits[suit]["for others"][i]
-        });
-        i++;
+          card: state.suits[suit]['for others'][i]
+        })
+        i++
       }
     }
   }
@@ -42,8 +42,8 @@ function _setInitialStateCards(state) {
 }
 
 function _getInitialState(state) {
-  var i,
-    suits = ['hearts', 'clubs', 'diamonds', 'spades'],
+  let i
+  const suits = ['hearts', 'clubs', 'diamonds', 'spades'],
     strategies = ['own-first', 'own-first-unless-blocked', 'others-first'],
     strategyNames = {
       'own-first': 'Own First',
@@ -52,12 +52,12 @@ function _getInitialState(state) {
     }
 
   for (i = 0; i < suits.length; i++) {
-    var suit = suits[i]
-    var cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    state.suits[suit] = { current: 0, blocked: false, cards: cards, others: [], "for others": [] }
+    const suit = suits[i]
+    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    state.suits[suit] = { current: 0, blocked: false, cards: cards, others: [], 'for others': [] }
   }
   for (i = 0; i < strategies.length; i++) {
-    var strategy = strategies[i],
+    const strategy = strategies[i],
       strategyName = strategyNames[strategy]
     state.strategies[strategy] = { name: strategyName, run: true, current: false, sprints: 0, complete: false }
   }
@@ -75,78 +75,78 @@ export const store = new Vuex.Store({
     stateSet: false,
     initialState: {
       maxSprints: 60,
-      runType: "Step Through",
+      runType: 'Step Through',
       complete: false,
       running: false,
       suits: {},
       noOfOthersCards: 3,
       strategies: {},
-      strategy: "",
+      strategy: '',
       narration: [],
     },
     state: {}
   },
   getters: {
     getWalkThrough: (state) => {
-      return state.walkThrough;
+      return state.walkThrough
     },
     getShowAbout: (state) => {
-      return state.showAbout;
+      return state.showAbout
     },
     getHost: (state) => {
-      return state.host;
+      return state.host
     },
     getStateSet: (state) => {
-      return state.stateSet;
+      return state.stateSet
     },
     getInitialState: (state) => {
       return _getInitialState(state.initialState)
     },
     getState: (state) => {
-      return state.state;
+      return state.state
     },
     getMaxSprints: (state) => {
-      return state.state.maxSprints;
+      return state.state.maxSprints
     }
   },
   mutations: {
     updateWalkThrough: (state, payload) => {
-      state.walkThrough = payload;
+      state.walkThrough = payload
     },
     updateShowAbout: (state, payload) => {
-      state.showAbout = payload;
+      state.showAbout = payload
     },
     updateHost: (state, payload) => {
-      state.host = payload;
+      state.host = payload
     },
     updateStateSet: (state, payload) => {
-      state.stateSet = payload;
+      state.stateSet = payload
     },
     updateState: (state, payload) => {
-      state.state = payload;
+      state.state = payload
     },
     updateMaxSprints: (state, payload) => {
-      state.state.maxSprints = payload;
+      state.state.maxSprints = payload
     }
   },
   actions: {
     updateWalkThrough: ({ commit }, payload) => {
-      commit("updateWalkThrough", payload);
+      commit('updateWalkThrough', payload)
     },
     updateShowAbout: ({ commit }, payload) => {
-      commit("updateShowAbout", payload);
+      commit('updateShowAbout', payload)
     },
     updateHost: ({ commit }, payload) => {
-      commit("updateHost", payload);
+      commit('updateHost', payload)
     },
     updateStateSet: ({ commit }, payload) => {
-      commit("updateStateSet", payload);
+      commit('updateStateSet', payload)
     },
     updateState: ({ commit }, payload) => {
-      commit("updateState", payload);
+      commit('updateState', payload)
     },
     updateMaxSprints: ({ commit }, payload) => {
-      commit("updateMaxSprints", payload);
+      commit('updateMaxSprints', payload)
     }
   }
-});
+})

@@ -14,7 +14,7 @@
           <div
             v-if="status.sprints > 0"
             class="status"
-            v-bind:style="{
+            :style="{
               width: setWidth(status),
               'background-color': setColor(strategy),
               color: setTextColor(strategy)
@@ -30,23 +30,28 @@
 
 <script>
 export default {
-  name: "Results",
-  props: {
-    state: Object,
+  name: 'Results',
+  props: [
+    'state'
+  ],
+  computed: {
+    maxSprints() {
+      return this.$store.getters.getMaxSprints
+    }
   },
   methods: {
     setWidth(status) {
-      return (status.sprints / this.maxSprints) * 100 + "%";
+      return (status.sprints / this.maxSprints) * 100 + '%'
     },
     setColor(strategy) {
       if (this.state.strategies[strategy].complete) {
         if (this.state.strategies[strategy].sprints < this.maxSprints) {
-          return "green";
+          return 'green'
         } else {
-          return "red";
+          return 'red'
         }
       } else {
-        return "#ccc";
+        return '#ccc'
       }
     },
     setTextColor(strategy) {
@@ -56,13 +61,8 @@ export default {
         return '#333'
       }
     }
-  },
-  computed: {
-    maxSprints() {
-      return this.$store.getters.getMaxSprints;
-    }
   }
-};
+}
 </script>
 
 <style>

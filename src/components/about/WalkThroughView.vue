@@ -20,7 +20,7 @@
             This simulation demonstrates strategies for optimising flow when teams
             are dependent on each other to complete their work.
           </p>
-          <div class="game"></div>
+          <div class="game" />
         </div>
       </div>
       <div class="mt-4" v-if="step == 2">
@@ -35,12 +35,16 @@
             <span>&clubs;</span>. Each team has a "backlog" of all the cards in their
             suit - A, 2, 3 ... J, Q, K.
           </p>
-          <p>Each team has to play all the cards in its backlog from Ace to King, The game is
+          <p>
+            Each team has to play all the cards in its backlog from Ace to King, The game is
             played in "Sprints" (like hands in a card game), where one card can be played
             each "Sprint". Cards must be played in ascending order - this simulates priority
-            in a backlog.</p>
-          <p>The game is complete when all cards have been played (<em>all work for all teams has been
-          completed</em>).</p>
+            in a backlog.
+          </p>
+          <p>
+            The game is complete when all cards have been played (<em>all work for all teams has been
+              completed</em>).
+          </p>
         </div>
       </div>
       <div class="mt-4" v-if="step == 3">
@@ -51,13 +55,14 @@
           some work for them.
         </p>
         <p>
-         If the next card a team has to play is with another team, they are blocked, and
-         cannot play a card in the current sprint.
+          If the next card a team has to play is with another team, they are blocked, and
+          cannot play a card in the current sprint.
         </p>
       </div>
       <div class="mt-4" v-if="step == 4">
         <h4>Strategies For Other Team's Work</h4>
-        <p>Three strategies are used to deal with work from other teams
+        <p>
+          Three strategies are used to deal with work from other teams
         </p>
         <ol class="strategies-list">
           <li><strong>Own Team's Work First</strong></li>
@@ -78,15 +83,15 @@
           out what work to do next.
         </p>
         <p>
-         In the simulation, the outcome of this meeting would be "all teams play the lowest
-         numbered other team's card", and the game continues...
+          In the simulation, the outcome of this meeting would be "all teams play the lowest
+          numbered other team's card", and the game continues...
         </p>
       </div>
       <div class="mt-4" v-if="step == 6">
         <h4>Strategy 2: Own Team's Work First, Unless Blocked</h4>
         <p>
-         In this strategy, teams again concentrate on their own work (cards) until they
-         are blocked. They then play the lowest other team's card, and the game continues.
+          In this strategy, teams again concentrate on their own work (cards) until they
+          are blocked. They then play the lowest other team's card, and the game continues.
         </p>
         <p>
           This would seem a good strategy, but blockages and delays are still common. Also,
@@ -122,8 +127,10 @@
           3 - always do other's work before your own, encourages - indeed forces - collaboration
           and working towards the wider good of the business.
         </p>
-        <p>A presentation from Agile Cambridge 2018 explores this in more detail. Click
-          <a href="https://vimeo.com/293167264/13f201d4f0">here</a> to watch the video.</p>
+        <p>
+          A presentation from Agile Cambridge 2018 explores this in more detail. Click
+          <a href="https://vimeo.com/293167264/13f201d4f0">here</a> to watch the video.
+        </p>
       </div>
       <div class="mt-4" v-if="step == 9">
         <h4>Conclusions</h4>
@@ -140,16 +147,24 @@
       </div>
       <div class="mt-4" v-if="step == 10">
         <h4>Game Play</h4>
-        <p>Simply click the "Go" button to step through the sprints. The number of sprints to get through
-          all the work will be shown in the status bars below the view of the teams suits.</p>
+        <p>
+          Simply click the "Go" button to step through the sprints. The number of sprints to get through
+          all the work will be shown in the status bars below the view of the teams suits.
+        </p>
         <p>Enjoy!</p>
       </div>
       <div class="buttons" v-if="step < noOfScreens()">
-        <button class="btn btn-info" @click="incrementStep">Next</button>
-        <button class="btn btn-info" @click="hide()">Skip</button>
+        <button class="btn btn-info" @click="incrementStep">
+          Next
+        </button>
+        <button class="btn btn-info" @click="hide()">
+          Skip
+        </button>
       </div>
       <div class="buttons" v-if="step == noOfScreens()">
-        <button class="btn btn-info" @click="hide()">Play Game</button>
+        <button class="btn btn-info" @click="hide()">
+          Play Game
+        </button>
       </div>
     </modal>
   </div>
@@ -172,16 +187,31 @@ export default {
         7: { height: 300 },
         8: { height: 400 },
         9: { height: 290 },
-        10: { target: "go-button", height: 260, width: 400 },
+        10: { target: 'go-button', height: 260, width: 400 },
       }
-    };
+    }
+  },
+  computed: {
+    walkThrough() {
+      return this.$store.getters.getWalkThrough
+    },
+    showAbout() {
+      return this.$store.getters.getShowAbout
+    },
+  },
+  mounted() {
+    const self = this
+    if (params.isParam('walkThrough')) {
+      self.$store.dispatch('updateWalkThrough', true)
+      self.$modal.show('walk-through')
+    }
   },
   methods: {
     noOfScreens() {
       return Object.keys(this.positions).length + 1
     },
     setDefault() {
-      var elem = document.getElementsByClassName("vm--modal")[0].getBoundingClientRect()
+      const elem = document.getElementsByClassName('vm--modal')[0].getBoundingClientRect()
       this.default = {
         top: elem.top,
         left: elem.left,
@@ -190,22 +220,22 @@ export default {
       }
     },
     show() {
-      this.$modal.show("walk-through");
+      this.$modal.show('walk-through')
     },
     hide() {
-      this.$modal.hide("walk-through");
+      this.$modal.hide('walk-through')
     },
     help() {
-      this.step = 1;
-      this.show();
+      this.step = 1
+      this.show()
     },
     incrementStep() {
       if (this.step == 1) {
         this.setDefault()
       }
       this.step = this.step + 1
-      var elem = document.getElementsByClassName("vm--modal")[0]
-      var target, positions = {}
+      const elem = document.getElementsByClassName('vm--modal')[0]
+      let target, positions = {}
       if (this.positions[this.step].target) {
         target = document.getElementById(this.positions[this.step].target)
         target = target.getBoundingClientRect()
@@ -226,22 +256,7 @@ export default {
       elem.style.height = positions.height +'px'
     }
   },
-  computed: {
-    walkThrough() {
-      return this.$store.getters.getWalkThrough;
-    },
-    showAbout() {
-      return this.$store.getters.getShowAbout;
-    },
-  },
-  mounted() {
-    const self = this;
-    if (params.isParam("walkThrough")) {
-      self.$store.dispatch("updateWalkThrough", true);
-      self.$modal.show("walk-through");
-    }
-  },
-};
+}
 </script>
 
 <style>

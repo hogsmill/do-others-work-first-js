@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="mb-4">
-    <appHeader></appHeader>
+    <appHeader />
     <WalkThroughView />
     <div v-if="showAbout">
       <AboutView />
@@ -10,7 +10,9 @@
       <div class="container">
         <div class="row">
           <div class="setup col-md-4 offset-md-2 mb-2 mr-2">
-            <h3 class="text-center">Set Up</h3>
+            <h3 class="text-center">
+              Set Up
+            </h3>
             <div class="radio" v-if="explore == 'explore'">
               <label for="noOfOthersCards">No. Of Others Cards</label>
               <input
@@ -18,7 +20,7 @@
                 id="noOfOthersCards"
                 name="noOfOthersCards"
                 v-model="initialState.noOfOthersCards"
-              />
+              >
             </div>
             <button
               class="btn btn-site-primary"
@@ -29,7 +31,9 @@
             </button>
           </div>
           <div class="control col-md-4 mb-2 ml-2">
-            <h3 class="text-center">Control</h3>
+            <h3 class="text-center">
+              Control
+            </h3>
             <div class="run-type" v-if="explore == 'explore'">
               <div>Type of Run:</div>
               <div class="radio">
@@ -38,7 +42,7 @@
                   id="fullRun"
                   name="runType"
                   v-model="initialState.runType"
-                />
+                >
                 <label for="fullRun">Full Run</label>
               </div>
               <div class="radio">
@@ -47,7 +51,7 @@
                   id="fullStrategy"
                   name="runType"
                   v-model="initialState.runType"
-                />
+                >
                 <label for="fullRun">Full Strategy</label>
               </div>
               <div class="radio">
@@ -56,14 +60,14 @@
                   id="stepThrough"
                   name="runType"
                   v-model="initialState.runType"
-                />
+                >
                 <label for="stepThrough">Step Through</label>
               </div>
             </div>
             <button id="go-button"
-              @click="nextSprint"
-              class="next-sprint btn btn-site-primary"
-              :disabled="!stateSet || state.complete || state.running"
+                    @click="nextSprint"
+                    class="next-sprint btn btn-site-primary"
+                    :disabled="!stateSet || state.complete || state.running"
             >
               Go
             </button>
@@ -76,7 +80,7 @@
                 id="ownFirst"
                 name="ownFirst"
                 v-model="state.strategies['own-first'].run"
-              />
+              >
               <label for="ownFirst">Own Work First</label>
             </div>
             <div class="radio">
@@ -85,10 +89,8 @@
                 id="ownFirstUnlessBlocked"
                 name="ownFirstUnlessBlocked"
                 v-model="state.strategies['own-first-unless-blocked'].run"
-              />
-              <label for="ownFirstUnlessBlocked"
-                >Own Work First Unless Blocked</label
               >
+              <label for="ownFirstUnlessBlocked">Own Work First Unless Blocked</label>
             </div>
             <div class="radio">
               <input
@@ -96,31 +98,31 @@
                 id="otherFirst"
                 name="otherFirst"
                 v-model="state.strategies['others-first'].run"
-              />
+              >
               <label for="otherFirst">Other's Work First</label>
             </div>
           </div>
         </div>
-        <StateView v-bind:state="state" />
-        <ResultsView v-bind:state="state" />
+        <StateView :state="state" />
+        <ResultsView :state="state" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import io from "socket.io-client";
+import io from 'socket.io-client'
 
 import params from './lib/params.js'
 
-import Header from "./components/Header.vue";
-import AboutView from "./components/about/AboutView.vue";
-import WalkThroughView from "./components/about/WalkThroughView.vue";
-import StateView from "./components/StateView.vue";
-import ResultsView from "./components/ResultsView.vue";
+import Header from './components/Header.vue'
+import AboutView from './components/about/AboutView.vue'
+import WalkThroughView from './components/about/WalkThroughView.vue'
+import StateView from './components/StateView.vue'
+import ResultsView from './components/ResultsView.vue'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     appHeader: Header,
     AboutView,
@@ -130,252 +132,252 @@ export default {
   },
   data() {
     return {
-      explore: "run",
+      explore: 'run',
       initialState: {},
       state: {}
-    };
+    }
+  },
+  computed: {
+    isHost() {
+      return this.$store.getters.getHost
+    },
+    showAbout() {
+      return this.$store.getters.getShowAbout
+    },
+    walkThrough() {
+      return this.$store.getters.getWalkThrough
+    },
+    stateSet() {
+      return this.$store.getters.getStateSet
+    },
+    getInitialState() {
+      return this.$store.getters.getInitialState
+    },
+    maxSprints() {
+      return this.$store.getters.getMaxSprints
+    }
+  },
+  created() {
+    let host = '77.68.122.69'
+    if (location.hostname == 'localhost') {
+      host = 'localhost'
+    }
+    const connStr = 'http://' + host + ':3001'
+    console.log('Connecting to: ' + connStr)
+    this.socket = io(connStr)
+
+    if (params.isParam('host')) {
+      this.$store.dispatch('updateHost', true)
+    }
+    if (params.isParam('walkThrough')) {
+      this.setState()
+    }
+  },
+  mounted() {
+    this.socket.on('setRemoteState', (data) => {
+      this.setRemoteState(data)
+    }),
+    this.socket.on('nextSprint', () => {
+      this._nextSprint()
+    }),
+    this.socket.on('setInitialState', () => {
+      this.setState()
+    })
   },
   methods: {
     updateShowAbout(payload) {
-      this.$store.dispatch("updateShowAbout", payload);
+      this.$store.dispatch('updateShowAbout', payload)
     },
     setState() {
       this.initialState = this.getInitialState
-      this.socket.emit("setRemoteState", JSON.stringify(this.initialState))
+      this.socket.emit('setRemoteState', JSON.stringify(this.initialState))
     },
     setRemoteState(data) {
       this.initialState = JSON.parse(data)
       this.state = JSON.parse(data)
-      this.$store.dispatch("updateStateSet", true)
+      this.$store.dispatch('updateStateSet', true)
     },
     resetState() {
-      this.state["suits"] = JSON.parse(
-        JSON.stringify(this.initialState["suits"])
-      );
+      this.state['suits'] = JSON.parse(
+        JSON.stringify(this.initialState['suits'])
+      )
     },
     strategyComplete() {
-      var complete = true;
-      for (var suit in this.state["suits"]) {
-        if (this.state["suits"][suit]["current"] < 13) {
-          complete = false;
+      let complete = true
+      for (const suit in this.state['suits']) {
+        if (this.state['suits'][suit]['current'] < 13) {
+          complete = false
         }
       }
-      return complete;
+      return complete
     },
     allBlocked() {
-      var allBlocked = true;
-      for (var suit in this.state["suits"]) {
-        if (!this.state["suits"][suit]["blocked"]) {
-          allBlocked = false;
+      let allBlocked = true
+      for (const suit in this.state['suits']) {
+        if (!this.state['suits'][suit]['blocked']) {
+          allBlocked = false
         }
       }
-      return allBlocked;
+      return allBlocked
     },
     insertCard(card, suit) {
-      this.state["suits"][suit]["cards"].push(card);
-      this.state["suits"][suit]["cards"].sort(function(a, b) {
-        return a - b;
-      });
+      this.state['suits'][suit]['cards'].push(card)
+      this.state['suits'][suit]['cards'].sort(function(a, b) {
+        return a - b
+      })
       if (
-        this.state["suits"][suit]["current"] + 1 ==
-        this.state["suits"][suit]["cards"][0]
+        this.state['suits'][suit]['current'] + 1 ==
+        this.state['suits'][suit]['cards'][0]
       ) {
-        this.state["suits"][suit]["blocked"] = false;
+        this.state['suits'][suit]['blocked'] = false
       }
     },
     playOthersCard(suit) {
-      if (this.state["suits"][suit]["others"].length) {
-        var card = this.state["suits"][suit]["others"][0];
-        this.state.narration.push({ suit: suit, card: card });
-        this.insertCard(card["card"], card["suit"]);
-        this.state["suits"][suit]["others"].shift();
+      if (this.state['suits'][suit]['others'].length) {
+        const card = this.state['suits'][suit]['others'][0]
+        this.state.narration.push({ suit: suit, card: card })
+        this.insertCard(card['card'], card['suit'])
+        this.state['suits'][suit]['others'].shift()
       }
     },
     playOwnCard(suit) {
-      this.state["suits"][suit]["current"] = this.state["suits"][suit][
-        "cards"
-      ][0];
-      this.state["suits"][suit]["cards"].shift();
+      this.state['suits'][suit]['current'] = this.state['suits'][suit][
+        'cards'
+      ][0]
+      this.state['suits'][suit]['cards'].shift()
     },
     playNextCardOwnFirst() {
-      for (var suit in this.state["suits"]) {
-        if (this.allBlocked() && this.state["suits"][suit]["others"].length) {
-          this.playOthersCard(suit);
+      for (const suit in this.state['suits']) {
+        if (this.allBlocked() && this.state['suits'][suit]['others'].length) {
+          this.playOthersCard(suit)
         } else {
           if (
-            this.state["suits"][suit]["current"] + 1 ==
-            this.state["suits"][suit]["cards"][0]
+            this.state['suits'][suit]['current'] + 1 ==
+            this.state['suits'][suit]['cards'][0]
           ) {
-            this.playOwnCard(suit);
+            this.playOwnCard(suit)
           } else {
-            this.state["suits"][suit]["blocked"] = true;
+            this.state['suits'][suit]['blocked'] = true
           }
         }
       }
     },
     playNextCardOwnFirstUnlessBlocked() {
-      for (var suit in this.state["suits"]) {
+      for (const suit in this.state['suits']) {
         if (
-          this.state["suits"][suit]["blocked"] &&
-          this.state["suits"][suit]["others"].length
+          this.state['suits'][suit]['blocked'] &&
+          this.state['suits'][suit]['others'].length
         ) {
-          this.playOthersCard(suit);
+          this.playOthersCard(suit)
         } else {
           if (
-            this.state["suits"][suit]["current"] + 1 ==
-            this.state["suits"][suit]["cards"][0]
+            this.state['suits'][suit]['current'] + 1 ==
+            this.state['suits'][suit]['cards'][0]
           ) {
-            this.playOwnCard(suit);
+            this.playOwnCard(suit)
           } else {
-            this.state["suits"][suit]["blocked"] = true;
+            this.state['suits'][suit]['blocked'] = true
           }
         }
       }
     },
     playNextCardOthersFirst() {
-      for (var suit in this.state["suits"]) {
-        if (this.state["suits"][suit]["others"].length) {
-          this.playOthersCard(suit);
+      for (const suit in this.state['suits']) {
+        if (this.state['suits'][suit]['others'].length) {
+          this.playOthersCard(suit)
         } else {
           if (
-            this.state["suits"][suit]["current"] + 1 ==
-            this.state["suits"][suit]["cards"][0]
+            this.state['suits'][suit]['current'] + 1 ==
+            this.state['suits'][suit]['cards'][0]
           ) {
-            this.playOwnCard(suit);
+            this.playOwnCard(suit)
           } else {
-            this.state["suits"][suit]["blocked"] = true;
+            this.state['suits'][suit]['blocked'] = true
           }
         }
       }
     },
     playNextCard(strategy) {
-      if (strategy == "own-first") {
-        this.playNextCardOwnFirst();
+      if (strategy == 'own-first') {
+        this.playNextCardOwnFirst()
       }
-      if (strategy == "own-first-unless-blocked") {
-        this.playNextCardOwnFirstUnlessBlocked();
+      if (strategy == 'own-first-unless-blocked') {
+        this.playNextCardOwnFirstUnlessBlocked()
       }
-      if (strategy == "others-first") {
-        this.playNextCardOthersFirst();
+      if (strategy == 'others-first') {
+        this.playNextCardOthersFirst()
       }
     },
     nextSprint() {
-      this.socket.emit("nextSprint")
+      this.socket.emit('nextSprint')
     },
     _nextSprint() {
-      var strategy = this.getCurrentStrategy();
-      var strategyCompleted = false;
-      this.state["running"] = true;
-      this.state["narration"] = [];
+      let strategy = this.getCurrentStrategy()
+      let strategyCompleted = false
+      this.state['running'] = true
+      this.state['narration'] = []
       if (strategy) {
-        this.playNextCard(strategy);
-        this.state["strategies"][strategy]["sprints"] =
-          this.state["strategies"][strategy]["sprints"] + 1;
+        this.playNextCard(strategy)
+        this.state['strategies'][strategy]['sprints'] =
+          this.state['strategies'][strategy]['sprints'] + 1
         if (
           this.strategyComplete() ||
-          this.state["strategies"][strategy]["sprints"] >=
+          this.state['strategies'][strategy]['sprints'] >=
             this.maxSprints
         ) {
-          this.state["strategies"][strategy]["complete"] = true;
-          strategyCompleted = true;
-          this.resetState();
+          this.state['strategies'][strategy]['complete'] = true
+          strategyCompleted = true
+          this.resetState()
         }
       }
-      var complete = true;
-      for (strategy in this.state["strategies"]) {
+      let complete = true
+      for (strategy in this.state['strategies']) {
         if (
-          this.state["strategies"][strategy]["run"] &&
-          !this.state["strategies"][strategy]["complete"]
+          this.state['strategies'][strategy]['run'] &&
+          !this.state['strategies'][strategy]['complete']
         ) {
-          complete = false;
+          complete = false
         }
       }
       if (complete) {
-        this.state["running"] = false;
-        return;
+        this.state['running'] = false
+        return
       }
       if (
-        this.state["runType"] == "Full Run" ||
-        (this.state["runType"] == "Full Strategy" && !strategyCompleted)
+        this.state['runType'] == 'Full Run' ||
+        (this.state['runType'] == 'Full Strategy' && !strategyCompleted)
       ) {
-        setTimeout(this.nextSprint, 500);
+        setTimeout(this.nextSprint, 500)
       } else {
-        this.state["running"] = false;
+        this.state['running'] = false
       }
     },
     getCurrentStrategy() {
-      var currentStrategy = false;
-      for (var strategy in this.state["strategies"]) {
+      let currentStrategy = false, strategy
+      for (strategy in this.state['strategies']) {
         if (
-          this.state["strategies"][strategy]["current"] &&
-          !this.state["strategies"][strategy]["complete"]
+          this.state['strategies'][strategy]['current'] &&
+          !this.state['strategies'][strategy]['complete']
         ) {
-          currentStrategy = strategy;
+          currentStrategy = strategy
         }
       }
       if (!currentStrategy) {
-        for (strategy in this.state["strategies"]) {
+        for (strategy in this.state['strategies']) {
           if (
             !currentStrategy &&
-            this.state["strategies"][strategy]["run"] &&
-            !this.state["strategies"][strategy]["complete"]
+            this.state['strategies'][strategy]['run'] &&
+            !this.state['strategies'][strategy]['complete']
           ) {
-            currentStrategy = strategy;
-            this.state.strategies[strategy].current = true;
+            currentStrategy = strategy
+            this.state.strategies[strategy].current = true
           }
         }
       }
-      return currentStrategy;
+      return currentStrategy
     },
-  },
-  created() {
-    var host = "77.68.122.69"
-    if (location.hostname == 'localhost') {
-      host = 'localhost'
-    }
-    var connStr = "http://" + host + ":3001"
-    console.log("Connecting to: " + connStr)
-    this.socket = io(connStr)
-
-    if (params.isParam("host")) {
-      this.$store.dispatch("updateHost", true)
-    }
-    if (params.isParam("walkThrough")) {
-      this.setState()
-    }
-  },
-  computed: {
-    isHost() {
-      return this.$store.getters.getHost;
-    },
-    showAbout() {
-      return this.$store.getters.getShowAbout;
-    },
-    walkThrough() {
-      return this.$store.getters.getWalkThrough;
-    },
-    stateSet() {
-      return this.$store.getters.getStateSet;
-    },
-    getInitialState() {
-      return this.$store.getters.getInitialState;
-    },
-    maxSprints() {
-      return this.$store.getters.getMaxSprints;
-    }
-  },
-  mounted() {
-    this.socket.on("setRemoteState", (data) => {
-      this.setRemoteState(data)
-    }),
-    this.socket.on("nextSprint", () => {
-      this._nextSprint()
-    }),
-    this.socket.on("setInitialState", () => {
-      this.setState()
-    })
   }
-};
+}
 </script>
 
 <style>
