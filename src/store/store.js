@@ -69,6 +69,7 @@ function _getInitialState(state) {
 
 export const store = new Vuex.Store({
   state: {
+    thisGame: 'Interdependent Teams Simulation',
     showAbout: false,
     walkThrough: false,
     host: false,
@@ -87,6 +88,9 @@ export const store = new Vuex.Store({
     state: {}
   },
   getters: {
+    thisGame: (state) => {
+      return state.thisGame
+    },
     getWalkThrough: (state) => {
       return state.walkThrough
     },
