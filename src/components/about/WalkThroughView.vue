@@ -286,8 +286,8 @@ export default {
   padding: 6px;
 }
 #walk-through p {
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-left: 12px;
+  margin-right: 12px;
 }
 .game {
   background-image: url("../../assets/img/game.png");
