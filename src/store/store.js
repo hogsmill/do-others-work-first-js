@@ -110,7 +110,7 @@ export const store = new Vuex.Store({
       return state.state
     },
     getMaxSprints: (state) => {
-      return state.state.maxSprints
+      return state.state.maxSprints ? state.state.maxSprints : state.initialState.maxSprints
     }
   },
   mutations: {
