@@ -65,27 +65,33 @@ export default {
 }
 </script>
 
-<style>
-.results .app-container {
-  margin: 0 auto;
-  height: 30px;
-  border: 1px solid #bbb;
-  max-width: 800px;
-  display: inline-block;
-  width: 83%;
-  margin-bottom: 4px;
-}
-.results .label {
-  display: inline-block;
-  margin-top: 3px;
-  width: 17%;
-}
-.results .status {
-  line-height: 1.9;
-  height: 100%;
-  width: 10%;
-  text-align: right;
-  padding-right: 5px;
-  margin-left: -15px;
+<style lang="scss">
+.results {
+
+  .app-container {
+    margin: 0 auto;
+    height: 30px;
+    border: 1px solid #bbb;
+    max-width: 800px;
+    display: inline-block;
+    width: 83%;
+    margin-bottom: 4px;
+  }
+
+  .label {
+    display: inline-block;
+    margin-top: 3px;
+    width: 17%;
+    text-align: right;
+  }
+
+  .status {
+    line-height: 1.9;
+    height: 100%;
+    width: 10%;
+    text-align: right;
+    padding-right: 5px;
+    margin-left: -15px;
+  }
 }
 </style>
