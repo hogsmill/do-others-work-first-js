@@ -6,7 +6,6 @@
       <AboutView />
     </div>
     <div v-if="!showAbout">
-      <h1>Interdependent Teams Simulation</h1>
       <div class="container">
         <div class="row">
           <div class="setup col-md-4 offset-md-2 mb-2 mr-2">
