@@ -93,7 +93,7 @@ export default {
 </script>
 
 <style>
-  h1 {
+  #navbarSupportedContent h1 {
     letter-spacing: initial;
     margin-left: 6px;
     font-weight: bold;
@@ -101,7 +101,7 @@ export default {
     font-size: xx-large;
     line-height: 1;
   }
-  
+
   .feedback {
     letter-spacing: 0;
     color: #212529;
