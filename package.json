@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "agentkeepalive": "^4.1.4",
-    "core-js": "^3.17.1",
+    "core-js": "^3.17.2",
     "death": "^1.1.0",
     "ini": "^2.0.0",
     "jquery": "^3.6.0",
