@@ -8,17 +8,17 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "agentkeepalive": "^4.1.4",
+    "agentkeepalive": "^4.2.0",
     "core-js": "^3.20.2",
     "death": "^1.1.0",
     "express": "^4.17.2",
     "ini": "^2.0.0",
     "jquery": "^3.6.0",
-    "mongodb": "^4.2.2",
+    "mongodb": "^4.3.0",
     "os": "^0.1.2",
-    "sass": "^1.45.2",
-    "socket.io": "^4.4.0",
-    "socket.io-client": "^4.4.0",
+    "sass": "^1.47.0",
+    "socket.io": "^4.4.1",
+    "socket.io-client": "^4.4.1",
     "vue-js-modal": "^2.0.1",
     "vuex": "^3.6.2"
   },
