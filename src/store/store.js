@@ -1,7 +1,5 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
 
-Vue.use(Vuex)
+import { createStore } from 'vuex'
 
 function getRandomIndex(n) {
   return Math.floor(Math.random() * Math.floor(n))
@@ -67,11 +65,15 @@ function _getInitialState(state) {
   return state
 }
 
-export const store = new Vuex.Store({
+export const store = createStore({
   state: {
     thisGame: 'Interdependent Teams Simulation',
     showAbout: false,
     walkThrough: false,
+    modals: {
+      'feedback': false,
+      'walkThrough': false
+    },
     host: false,
     stateSet: false,
     initialState: {
@@ -93,6 +95,9 @@ export const store = new Vuex.Store({
     },
     getWalkThrough: (state) => {
       return state.walkThrough
+    },
+    getModals: (state) => {
+      return state.modals
     },
     getShowAbout: (state) => {
       return state.showAbout
@@ -120,6 +125,16 @@ export const store = new Vuex.Store({
     updateShowAbout: (state, payload) => {
       state.showAbout = payload
     },
+    showModal: (state, payload) => {
+      const modals = Object.keys(state.modals)
+      for (let i = 0; i < modals.length; i++) {
+        state.modals[modals[i]] = false
+      }
+      state.modals[payload] = true
+    },
+    hideModal: (state, payload) => {
+      state.modals[payload] = false
+    },
     updateHost: (state, payload) => {
       state.host = payload
     },
@@ -139,6 +154,12 @@ export const store = new Vuex.Store({
     },
     updateShowAbout: ({ commit }, payload) => {
       commit('updateShowAbout', payload)
+    },
+    showModal: ({ commit }, payload) => {
+      commit('showModal', payload)
+    },
+    hideModal: ({ commit }, payload) => {
+      commit('hideModal', payload)
     },
     updateHost: ({ commit }, payload) => {
       commit('updateHost', payload)

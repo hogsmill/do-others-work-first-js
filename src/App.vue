@@ -63,10 +63,11 @@
                 <label for="stepThrough">Step Through</label>
               </div>
             </div>
-            <button id="go-button"
-                    @click="nextSprint"
-                    class="next-sprint btn btn-site-primary"
-                    :disabled="!stateSet || state.complete || state.running"
+            <button
+              id="go-button"
+              @click="nextSprint"
+              class="next-sprint btn btn-site-primary"
+              :disabled="!stateSet || state.complete || state.running"
             >
               Go
             </button>
@@ -106,6 +107,7 @@
         <ResultsView :state="state" />
       </div>
     </div>
+    <Modals />
   </div>
 </template>
 
@@ -119,6 +121,7 @@ import AboutView from './components/about/AboutView.vue'
 import WalkThroughView from './components/about/WalkThroughView.vue'
 import StateView from './components/StateView.vue'
 import ResultsView from './components/ResultsView.vue'
+import Modals from './components/Modals.vue'
 
 export default {
   name: 'App',
@@ -128,6 +131,7 @@ export default {
     WalkThroughView,
     StateView,
     ResultsView,
+    Modals
   },
   data() {
     return {
